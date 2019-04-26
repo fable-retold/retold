@@ -1,6 +1,6 @@
 {
   "name": "retold",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "Common Application Services",
   "main": "source/Retold.js",
   "scripts": {
@@ -31,7 +31,7 @@
   },
   "dependencies": {
     "fable": "~1.0.1",
-    "meadow": "~1.0.1",
-    "meadow-endpoints": "~1.0.1"
+    "meadow": "~1.0.29",
+    "meadow-endpoints": "~2.0.1"
   }
 }
