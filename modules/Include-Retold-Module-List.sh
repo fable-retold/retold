@@ -1,15 +1,15 @@
-Retold-Module-List.sh
+#!/bin/bash
 
-echo "### Building list sof modules..."
+echo "### Building list of modules..."
 
 repositoriesFable=("fable" "fable-log" "fable-settings" "fable-uuid" "fable-serviceproviderbase" "fable-log-logger-bunyan")
 
-repositoriesMeadow=("stricture" "foxhound" "meadow" "meadow-endpoints" "meadow-connection-mysql" "meadow-connection-mssql" "retold-data-service" "retold-harness" "meadow-service-sync")
+repositoriesMeadow=("stricture" "foxhound" "bibliograph" "meadow" "parime" "meadow-endpoints" "meadow-connection-mysql" "meadow-connection-mssql" "meadow-connection-sqlite" "retold-data-service" "retold-harness" "meadow-integration" "meadow-graph-client")
 
-repositoriesOrator=("orator" "orator-serviceserver-restify" "tidings")
+repositoriesOrator=("orator" "orator-serviceserver-restify" "orator-static-server" "orator-http-proxy" "tidings" "orator-endpoint")
 
-repositoriesPict=("pict" "pict-view" "pict-application" "cryptbrau" "informary" "pict-service-commandlineutility" "pict-chance" "pict-section-content" "pict-section-form" "pict-section-tuigrid" "pict-section-tuigrid-inline" "pict-control-ldloader" "pict-control-ldloader-inline" "pict-control-mousetrap" "pict-control-mousetrap-inline" "pict-control-materialdesignlite" "pict-control-materialdesignlite-inline" "pict-control-micromodal" "pict-control-micromodal-inline")
+repositoriesPict=("pict" "pict-template" "pict-view" "pict-provider" "pict-application" "pict-panel" "cryptbrau" "informary" "pict-service-commandlineutility" "pict-section-recordset" "pict-section-content" "pict-section-form" "pict-section-tuigrid" "pict-router" "pict-serviceproviderbase")
 
-repositoriesUtility=("precedent" "manyfest" "choreographic" "elucidator" "cachetrax" "cumulation" "merquerial" "quantifier" "quackage")
+repositoriesUtility=("indoctrinate" "manyfest" "choreographic" "quackage" "ultravisor")
 
 echo "### ... Module lists built!"
