@@ -1749,6 +1749,25 @@
 					"Type": "webapp",
 					"Owner": "stevenvelozo",
 					"Forkable": false
+				},
+				{
+					"Name": "retold-monorepo-manager",
+					"Path": "modules/apps/retold-monorepo-manager",
+					"Description": "Generic, config-driven monorepo manager — status, dependency-graph ripple and release tooling for any monorepo, from a plain Modules-Manifest.json.",
+					"GitHub": "https://github.com/fable-retold/retold-monorepo-manager",
+					"RelatedModules": [
+						"fable",
+						"orator",
+						"pict"
+					],
+					"Type": "webapp",
+					"Branding": {
+						"Palette": "ocean",
+						"DisplayName": "Monorepo Manager",
+						"Tagline": "Status, bulk operations, and ripple-publish across every module"
+					},
+					"Owner": "fable-retold",
+					"Forkable": false
 				}
 			]
 		},
