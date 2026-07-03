@@ -171,9 +171,11 @@ for i in "${!FORK_DIRS[@]}"; do
 	fi
 	printf '  %-30s %-17s %s\n' "$tmpName" "$tmpOwner" "${tmpRisk:+${C_YELLOW}$tmpRisk${C_RESET}}"
 done
-[ "${#RISK_AHEAD[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_AHEAD[@]} fork(s) look AHEAD of canonical (unmerged commits): ${RISK_AHEAD[*]}"
+[ "${#RISK_AHEAD[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_AHEAD[@]} fork(s) MAY be ahead of canonical: ${RISK_AHEAD[*]}"
 [ "${#RISK_DIRTY[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_DIRTY[@]} clone(s) have a DIRTY working tree: ${RISK_DIRTY[*]}"
-info "  (The backup step below bundles ALL refs of every module, so nothing is lost even if a fork is deleted.)"
+info "  (Ahead is a fast best-effort estimate from the local 'upstream' ref — it can over-report if that"
+info "   ref is stale. Deletion re-verifies each fork against a FRESH canonical fetch and skips any that"
+info "   are genuinely ahead. The backup step also bundles ALL refs, so nothing is lost regardless.)"
 
 if [ "$DRY_RUN" = 1 ]; then hdr "Dry-run complete."; info "Re-run without --dry-run to act on the gates."; exit 0; fi
 if ! gate "Proceed with cleanup of the $tmpCount module(s) above?"; then say "Aborted — no changes made."; exit 0; fi
@@ -219,14 +221,22 @@ if [ "$HAVE_GH" = 0 ]; then
 	warn "gh CLI not authenticated — skipping fork deletion. Install/login with:  gh auth login  (needs delete_repo scope: gh auth refresh -s delete_repo)"
 elif gate "Delete the personal GitHub forks now? This cannot be undone." "DELETE"; then
 	for i in "${!FORK_DIRS[@]}"; do
-		tmpName="${FORK_NAMES[$i]}"; tmpOwner="${FORK_OWNERS[$i]}"
+		tmpDir="${FORK_DIRS[$i]}"; tmpName="${FORK_NAMES[$i]}"; tmpOwner="${FORK_OWNERS[$i]}"
 		[ "$tmpOwner" = "__BACKUP_FAILED__" ] && { warn "  $tmpName — backup failed earlier; NOT deleting."; continue; }
 		[ "$tmpOwner" = "$CANONICAL_ORG" ] && continue
 		# idempotent: skip if the fork is already gone
 		if ! gh repo view "$tmpOwner/$tmpName" >/dev/null 2>&1; then info "  $tmpOwner/$tmpName — already gone"; continue; fi
-		# safety: refuse ahead-of-canonical forks unless --force (the bundle backup still has them either way)
-		if printf '%s\n' "${RISK_AHEAD[@]:-}" | grep -qx "$tmpName" && [ "$FORCE" = 0 ]; then
-			warn "  $tmpOwner/$tmpName — AHEAD of canonical; skipping (re-run with --force to delete anyway; refs are in the backup)."
+		# safety: FRESH-fetch canonical and refuse to delete if this clone has commits canonical lacks
+		# (an accurate ff-check — does not trust the possibly-stale local 'upstream' ref). The bundle
+		# backup in ~/Tmp still holds every ref regardless, so nothing is lost even with --force.
+		tmpBranch="$(git -C "$tmpDir" rev-parse --abbrev-ref HEAD 2>/dev/null)"
+		if git -C "$tmpDir" fetch "https://github.com/$CANONICAL_ORG/$tmpName.git" "$tmpBranch" --quiet 2>/dev/null; then
+			tmpForkAhead="$(git -C "$tmpDir" rev-list --count FETCH_HEAD..HEAD 2>/dev/null || echo '?')"
+		else
+			tmpForkAhead='?'   # couldn't verify — treat as risky
+		fi
+		if [ "$tmpForkAhead" != "0" ] && [ "$FORCE" = 0 ]; then
+			warn "  $tmpOwner/$tmpName — $tmpForkAhead commit(s) ahead of canonical (or unverifiable); skipping. Land them first, or --force (refs are in the backup)."
 			continue
 		fi
 		if gh repo delete "$tmpOwner/$tmpName" --yes >/dev/null 2>&1; then ok "  $tmpOwner/$tmpName — deleted"
