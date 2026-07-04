@@ -153,6 +153,8 @@ if [ "$tmpCount" -eq 0 ]; then ok "No forked clones found — this monorepo is a
 
 # ─────────────────────────────────── Phase 0: report ────────────────────────────────────────
 hdr "Report — $tmpCount forked module clone(s) to clean"
+info "  (checking each against canonical — in-sync clones are confirmed via ls-remote; only ones that"
+info "   differ get fetched. This never trusts the local 'upstream' ref, which can be stale.)"
 declare -a RISK_AHEAD RISK_DIRTY
 printf '%s\n' "  ${C_DIM}module                         fork-owner        risk${C_RESET}"
 for i in "${!FORK_DIRS[@]}"; do
@@ -160,22 +162,24 @@ for i in "${!FORK_DIRS[@]}"; do
 	tmpRisk=""
 	# dirty working tree?
 	if [ -n "$(git -C "$tmpDir" status --porcelain 2>/dev/null)" ]; then tmpRisk="dirty-tree"; RISK_DIRTY+=("$tmpName"); fi
-	# fork ahead of canonical? best-effort: compare origin/HEAD..HEAD-branch vs canonical (via upstream if present)
+	# ahead of canonical? accurate + cheap: if canonical's branch tip == local HEAD the clone is in sync
+	# (no fetch needed); otherwise fetch canonical and count local commits it lacks.
 	tmpBranch="$(git -C "$tmpDir" rev-parse --abbrev-ref HEAD 2>/dev/null)"
-	tmpAhead=""
-	if git -C "$tmpDir" remote get-url upstream >/dev/null 2>&1; then
-		tmpAhead="$(git -C "$tmpDir" rev-list --count "upstream/$tmpBranch..$tmpBranch" 2>/dev/null || echo '')"
+	tmpHead="$(git -C "$tmpDir" rev-parse HEAD 2>/dev/null)"
+	tmpCanonSha="$(git ls-remote "https://github.com/$CANONICAL_ORG/$tmpName.git" "refs/heads/$tmpBranch" 2>/dev/null | cut -f1)"
+	tmpAhead=0
+	if [ -z "$tmpCanonSha" ]; then tmpAhead='?'
+	elif [ "$tmpCanonSha" != "$tmpHead" ]; then
+		if git -C "$tmpDir" fetch "https://github.com/$CANONICAL_ORG/$tmpName.git" "$tmpBranch" --quiet 2>/dev/null; then
+			tmpAhead="$(git -C "$tmpDir" rev-list --count FETCH_HEAD..HEAD 2>/dev/null || echo '?')"
+		else tmpAhead='?'; fi
 	fi
-	if [ -n "$tmpAhead" ] && [ "$tmpAhead" != "0" ]; then
-		tmpRisk="${tmpRisk:+$tmpRisk, }ahead-of-canonical:$tmpAhead"; RISK_AHEAD+=("$tmpName")
-	fi
+	if [ "$tmpAhead" != "0" ]; then tmpRisk="${tmpRisk:+$tmpRisk, }ahead:$tmpAhead"; RISK_AHEAD+=("$tmpName"); fi
 	printf '  %-30s %-17s %s\n' "$tmpName" "$tmpOwner" "${tmpRisk:+${C_YELLOW}$tmpRisk${C_RESET}}"
 done
-[ "${#RISK_AHEAD[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_AHEAD[@]} fork(s) MAY be ahead of canonical: ${RISK_AHEAD[*]}"
-[ "${#RISK_DIRTY[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_DIRTY[@]} clone(s) have a DIRTY working tree: ${RISK_DIRTY[*]}"
-info "  (Ahead is a fast best-effort estimate from the local 'upstream' ref — it can over-report if that"
-info "   ref is stale. Deletion re-verifies each fork against a FRESH canonical fetch and skips any that"
-info "   are genuinely ahead. The backup step also bundles ALL refs, so nothing is lost regardless.)"
+[ "${#RISK_AHEAD[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_AHEAD[@]} fork(s) are AHEAD of canonical (unmerged commits — skipped at deletion unless --force): ${RISK_AHEAD[*]}"
+[ "${#RISK_DIRTY[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_DIRTY[@]} clone(s) have a DIRTY working tree (commit first — see Commit-Dirty.sh): ${RISK_DIRTY[*]}"
+info "  (Deletion re-verifies fresh + the backup bundles ALL refs, so nothing is lost regardless.)"
 
 if [ "$DRY_RUN" = 1 ]; then hdr "Dry-run complete."; info "Re-run without --dry-run to act on the gates."; exit 0; fi
 if ! gate "Proceed with cleanup of the $tmpCount module(s) above?"; then say "Aborted — no changes made."; exit 0; fi
