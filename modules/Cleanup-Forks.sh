@@ -157,14 +157,21 @@ for i in "${!REPOINT_NAMES[@]}"; do
 	printf '    %-34s %s%s\n' "${REPOINT_NAMES[$i]}" "$(url_owner "${REPOINT_ORIGINS[$i]}")" "$tmpDirty"
 done
 say "  ${C_BOLD}Delete${C_RESET} (your GitHub forks under $FORK_OWNER → removed): ${#DELETE_NAMES[@]}"
+DELETE_AHEAD=()   # per-index cache (aligned with DELETE_NAMES) so the delete loop doesn't re-compare
 if [ "${#DELETE_NAMES[@]}" -gt 0 ]; then
-	info "    (comparing each fork to canonical — forks with unmerged commits are backed up + skipped unless --force)"
-	AHEAD_NAMES=()
+	info "    (comparing each fork to canonical — one API call per fork; ahead forks are backed up + skipped unless --force)"
+	AHEAD_NAMES=(); tmpTotal="${#DELETE_NAMES[@]}"
 	for i in "${!DELETE_NAMES[@]}"; do
 		tmpN="${DELETE_NAMES[$i]}"; tmpB="${DELETE_BRANCHES[$i]}"
+		[ -t 1 ] && printf '\r    comparing %d/%d … %-34s' "$((i+1))" "$tmpTotal" "$tmpN"
 		tmpAhead="$(gh api "repos/$FORK_OWNER/$tmpN/compare/$CANONICAL_ORG:$tmpB...$tmpB" --jq '.ahead_by' 2>/dev/null)"
 		[ -z "$tmpAhead" ] && tmpAhead='?'
-		if [ "$tmpAhead" != "0" ]; then AHEAD_NAMES+=("$tmpN"); printf '    %-34s %s\n' "$tmpN" "${C_YELLOW}ahead of canonical: $tmpAhead${C_RESET}"; fi
+		DELETE_AHEAD[$i]="$tmpAhead"
+		[ "$tmpAhead" != "0" ] && AHEAD_NAMES+=("$tmpN")
+	done
+	[ -t 1 ] && printf '\r%*s\r' 72 ''   # wipe the progress line before printing the summary
+	for i in "${!DELETE_NAMES[@]}"; do
+		[ "${DELETE_AHEAD[$i]}" != "0" ] && printf '    %-34s %s\n' "${DELETE_NAMES[$i]}" "${C_YELLOW}ahead of canonical: ${DELETE_AHEAD[$i]}${C_RESET}"
 	done
 	[ "${#AHEAD_NAMES[@]}" -gt 0 ] && warn "    ⚠ ${#AHEAD_NAMES[@]} fork(s) are AHEAD of canonical — mirror-backed-up then skipped (unless --force): ${AHEAD_NAMES[*]}"
 fi
@@ -202,8 +209,7 @@ if [ "${#DELETE_NAMES[@]}" -gt 0 ]; then
 		for i in "${!DELETE_NAMES[@]}"; do
 			tmpN="${DELETE_NAMES[$i]}"; tmpB="${DELETE_BRANCHES[$i]}"
 			if ! gh repo view "$FORK_OWNER/$tmpN" >/dev/null 2>&1; then info "  $FORK_OWNER/$tmpN — already gone"; continue; fi
-			tmpAhead="$(gh api "repos/$FORK_OWNER/$tmpN/compare/$CANONICAL_ORG:$tmpB...$tmpB" --jq '.ahead_by' 2>/dev/null)"
-			[ -z "$tmpAhead" ] && tmpAhead='?'
+			tmpAhead="${DELETE_AHEAD[$i]:-?}"   # reuse the comparison computed in the report (no second API pass)
 			if [ "$tmpAhead" != "0" ]; then
 				# preserve the fork's unique commits before we consider deleting it
 				[ -d "$BACKUP_DIR/$tmpN.fork.git" ] || git clone --mirror "https://github.com/$FORK_OWNER/$tmpN.git" "$BACKUP_DIR/$tmpN.fork.git" >/dev/null 2>&1
