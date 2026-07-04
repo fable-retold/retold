@@ -2,33 +2,31 @@
 #
 # Cleanup-Forks.sh — retire the fork / upstream model across a retold synthetic monorepo.
 #
-# The old model: every "forkable" module was forked from the canonical org (fable-retold)
-# to your personal GitHub account, cloned as origin=<you>/<module> with upstream=fable-retold.
-# We're done with forks — modules now track local + remote (origin=fable-retold) + npm only.
+# The old model: every "forkable" module was forked from the canonical org (fable-retold) to your
+# personal GitHub account, cloned as origin=<you>/<module> with upstream=fable-retold. We're done with
+# forks — modules now track local + remote (origin=fable-retold) + npm only.
 #
-# This one-time script, per module you have checked out:
-#   1. REPORTS   what it would do + flags anything risky (fork ahead of canonical, dirty tree).
-#   2. BACKS UP  every ref (git bundle --all) + the remote config to ~/Tmp before touching anything.
-#   3. RE-POINTS origin -> fable-retold/<module> and drops the `upstream` remote.
-#   4. DELETES   the personal GitHub fork (<you>/<module>) — gated, and only after the backup.
-#   5. (opt)     flips Forkable:false in Retold-Modules-Manifest.json + regenerates the shell list.
+# Two INDEPENDENT jobs, so it's safe to re-run and safe after a partial run:
+#   RE-POINT  every local clone still on a fork  -> origin=fable-retold, drop `upstream`.  (local, on-disk)
+#   DELETE    your personal GitHub forks.  Discovered from GitHub (gh repo list --fork), NOT from the
+#             local origin — so it still finds them after re-pointing. Each fork is compared to canonical
+#             first; a fork with commits canonical lacks is mirror-backed-up to ~/Tmp and then skipped
+#             (unless --force). Idempotent: already-deleted forks are skipped.
 #
-# It is SAFE to re-run (idempotent): already-canonical modules and already-deleted forks are skipped.
-# It discovers the fork owner from each clone's own origin URL, so it works for you and for colleagues
-# on any machine, over whatever subset of modules that machine has checked out.
+# Runs per user/machine over whatever it has: the fork owner is your gh login, so you can delete every
+# fork from ONE machine and just re-point on the others. Personal (Forkable:false) modules are never
+# touched.
 #
-# Usage:
-#   bash Cleanup-Forks.sh [MONOREPO_DIR]      # interactive; defaults to auto-detected monorepo
+# Usage:  bash Cleanup-Forks.sh [MONOREPO_DIR]
+# Flags:
+#   --dry-run        report only; make no changes
+#   --yes            accept every gate non-interactively (use with care)
+#   --no-backup      skip the local-clone bundle backup (fork mirrors of ahead forks still happen)
+#   --force          delete forks even if ahead of canonical (they are mirror-backed-up first)
+#   --flip-manifest  also flip Forkable:false in the manifest + regenerate (ONE machine, ONE time)
+#   BACKUP_DIR=...   override backup location (default: ~/Tmp/retold-fork-cleanup-<timestamp>)
 #
-# Env / flags:
-#   --yes            accept every gate non-interactively (for scripted runs — use with care)
-#   --dry-run        report only; make no changes (this is also implied until you pass a gate)
-#   --no-backup      skip the ~/Tmp backup step (NOT recommended)
-#   --force          delete forks even if they look ahead of canonical (the backup still runs first)
-#   --flip-manifest  also flip Forkable:false in the manifest + regenerate (one-time; commit once)
-#   BACKUP_DIR=...   override the backup location (default: ~/Tmp/retold-fork-cleanup-<timestamp>)
-#
-set -uo pipefail
+set -o pipefail   # NOT `set -u`: macOS bash 3.2 errors on empty-array expansion under -u.
 
 # ─────────────────────────────────────────── args ───────────────────────────────────────────
 ASSUME_YES=0; DRY_RUN=0; DO_BACKUP=1; FORCE=0; FLIP_MANIFEST=0; MONOREPO=""
@@ -56,12 +54,11 @@ warn() { printf '%s\n' "${C_YELLOW}$*${C_RESET}"; }
 err()  { printf '%s\n' "${C_RED}$*${C_RESET}" >&2; }
 hdr()  { printf '\n%s\n' "${C_BOLD}$*${C_RESET}"; }
 
-# A gate. Returns 0 (proceed) / 1 (skip). --yes auto-accepts; --dry-run auto-declines any mutation.
 gate() {
-	local tmpPrompt="$1"; local tmpExpect="${2:-yes}"
+	tmpPrompt="$1"; tmpExpect="${2:-yes}"
 	if [ "$DRY_RUN" = "1" ]; then info "  (dry-run) would ask: $tmpPrompt"; return 1; fi
 	if [ "$ASSUME_YES" = "1" ]; then return 0; fi
-	local tmpReply=""
+	tmpReply=""
 	printf '%s ' "${C_BOLD}${tmpPrompt}${C_RESET} [type '${tmpExpect}']:"
 	read -r tmpReply
 	[ "$tmpReply" = "$tmpExpect" ]
@@ -69,58 +66,51 @@ gate() {
 
 # ────────────────────────────────────── locate monorepo ─────────────────────────────────────
 if [ -z "$MONOREPO" ]; then
-	# walk up from the script dir, then from PWD, looking for the manifest.
-	tmpStart="$(cd "$(dirname "$0")" && pwd)"
-	for tmpBase in "$tmpStart" "$PWD"; do
+	for tmpBase in "$(cd "$(dirname "$0")" && pwd)" "$PWD"; do
 		tmpD="$tmpBase"
 		while [ "$tmpD" != "/" ]; do
-			if [ -f "$tmpD/Retold-Modules-Manifest.json" ]; then MONOREPO="$tmpD"; break; fi
+			[ -f "$tmpD/Retold-Modules-Manifest.json" ] && { MONOREPO="$tmpD"; break; }
 			tmpD="$(dirname "$tmpD")"
 		done
 		[ -n "$MONOREPO" ] && break
 	done
 fi
 if [ -z "$MONOREPO" ] || [ ! -d "$MONOREPO/modules" ]; then
-	err "Could not find the retold monorepo (looked for Retold-Modules-Manifest.json + a modules/ dir)."
-	err "Run from inside the monorepo, or pass its path:  bash Cleanup-Forks.sh /path/to/retold"
+	err "Could not find the retold monorepo. Run from inside it, or pass its path: bash Cleanup-Forks.sh /path/to/retold"
 	exit 1
 fi
 MONOREPO="$(cd "$MONOREPO" && pwd)"
 
-# canonical org: from the generated module list if present, else the default.
 CANONICAL_ORG="$CANONICAL_ORG_DEFAULT"
 if [ -f "$MONOREPO/modules/Include-Retold-Module-List.sh" ]; then
 	tmpOrg="$(grep -E '^canonicalOrg=' "$MONOREPO/modules/Include-Retold-Module-List.sh" | head -1 | sed -E 's/.*="?([^"]+)"?.*/\1/')"
 	[ -n "$tmpOrg" ] && CANONICAL_ORG="$tmpOrg"
 fi
 
+command -v node >/dev/null 2>&1 || { err "node is required (to read the manifest's Forkable flags)."; exit 1; }
 HAVE_GH=0; command -v gh >/dev/null 2>&1 && gh auth status >/dev/null 2>&1 && HAVE_GH=1
+
+# fork owner = your gh login (the account your forks live under). Fallback: an origin off canonical.
+FORK_OWNER=""
+[ "$HAVE_GH" = 1 ] && FORK_OWNER="$(gh api user --jq .login 2>/dev/null)"
+if [ -z "$FORK_OWNER" ]; then
+	FORK_OWNER="$(find "$MONOREPO/modules" -mindepth 3 -maxdepth 3 -name .git 2>/dev/null | while IFS= read -r g; do
+		u="$(git -C "$(dirname "$g")" remote get-url origin 2>/dev/null | sed -E 's#(git@github\.com:|https?://github\.com/)([^/]+)/.*#\2#')"
+		[ -n "$u" ] && [ "$u" != "$CANONICAL_ORG" ] && { echo "$u"; break; }; done | head -1)"
+fi
 
 hdr "retold fork cleanup"
 info "monorepo:      $MONOREPO"
 info "canonical org: $CANONICAL_ORG"
-info "backup dir:    $BACKUP_DIR $([ "$DO_BACKUP" = 0 ] && echo '(disabled)')"
+info "fork owner:    ${FORK_OWNER:-<unknown>}"
+info "backup dir:    $BACKUP_DIR $([ "$DO_BACKUP" = 0 ] && echo '(clone backup disabled; fork mirrors still made)')"
 info "gh available:  $([ "$HAVE_GH" = 1 ] && echo yes || echo 'no — fork deletion will be skipped')"
 [ "$DRY_RUN" = 1 ] && warn "DRY-RUN — no changes will be made."
+if [ -n "$FORK_OWNER" ] && [ "$FORK_OWNER" = "$CANONICAL_ORG" ]; then err "fork owner == canonical org; refusing to run."; exit 1; fi
 
-# ─────────────────────────────────────── url helpers ────────────────────────────────────────
-# owner from a github remote url (git@github.com:owner/repo.git | https://github.com/owner/repo(.git))
 url_owner() { printf '%s' "$1" | sed -E 's#(git@github\.com:|https?://github\.com/)([^/]+)/.*#\2#'; }
-url_repo()  { local tmpB; tmpB="$(basename "$1")"; printf '%s' "${tmpB%.git}"; }
-# rebuild a canonical url for module $2 in the same scheme (ssh vs https) as the current origin $1
-canonical_url() {
-	local tmpOrigin="$1"; local tmpRepo="$2"
-	if printf '%s' "$tmpOrigin" | grep -q '^git@'; then printf 'git@github.com:%s/%s.git' "$CANONICAL_ORG" "$tmpRepo"
-	else printf 'https://github.com/%s/%s.git' "$CANONICAL_ORG" "$tmpRepo"; fi
-}
 
-# ─── which modules are forkable? (the ONLY ones we ever touch) ───
-# Source of truth is the manifest: Forkable !== false means "canonical lives at fable-retold, you fork
-# it." Forkable:false modules (owned by a person) are NOT forks — we must never re-point or delete them.
-if ! command -v node >/dev/null 2>&1; then
-	err "node is required (to read the manifest's Forkable flags). It ships with the retold toolchain."
-	exit 1
-fi
+# forkable set from the manifest (Forkable !== false). The ONLY modules we ever touch.
 FORKABLE_NAMES=" $(node -e '
 	const m=require(process.argv[1]); const out=[];
 	for (const g of (m.Groups||[])) for (const mod of (g.Modules||[]))
@@ -129,151 +119,123 @@ FORKABLE_NAMES=" $(node -e '
 ' "$MONOREPO/Retold-Modules-Manifest.json") "
 is_forkable() { case "$FORKABLE_NAMES" in *" $1 "*) return 0;; *) return 1;; esac; }
 
-# ─────────────────────────────────── discover fork clones ───────────────────────────────────
-# A clone is a fork to clean iff: (a) the manifest marks it forkable, AND (b) its origin owner has
-# drifted off the canonical org (i.e. it was forked to a personal account). Forkable modules already
-# on fable-retold are skipped (idempotent); non-forkable modules are never considered.
-declare -a FORK_DIRS FORK_NAMES FORK_OWNERS FORK_ORIGINS
-tmpSkippedNonForkable=0
+# ───────────────── discover: (A) clones to re-point   (B) forks to delete ─────────────────
+# (A) on-disk forkable clones whose origin drifted off canonical → need re-pointing.
+REPOINT_DIRS=(); REPOINT_NAMES=(); REPOINT_ORIGINS=(); tmpSkipped=0
 while IFS= read -r tmpGitDir; do
-	tmpDir="$(dirname "$tmpGitDir")"
-	tmpName="$(basename "$tmpDir")"
+	tmpDir="$(dirname "$tmpGitDir")"; tmpName="$(basename "$tmpDir")"
 	tmpOrigin="$(git -C "$tmpDir" remote get-url origin 2>/dev/null)"
 	[ -z "$tmpOrigin" ] && continue
 	printf '%s' "$tmpOrigin" | grep -q 'github\.com' || continue
-	tmpOwner="$(url_owner "$tmpOrigin")"
-	[ "$tmpOwner" = "$CANONICAL_ORG" ] && continue     # already canonical — nothing to do (idempotent)
-	if ! is_forkable "$tmpName"; then tmpSkippedNonForkable=$((tmpSkippedNonForkable+1)); continue; fi
-	FORK_DIRS+=("$tmpDir"); FORK_NAMES+=("$tmpName"); FORK_OWNERS+=("$tmpOwner"); FORK_ORIGINS+=("$tmpOrigin")
+	[ "$(url_owner "$tmpOrigin")" = "$CANONICAL_ORG" ] && continue
+	is_forkable "$tmpName" || { tmpSkipped=$((tmpSkipped+1)); continue; }
+	REPOINT_DIRS+=("$tmpDir"); REPOINT_NAMES+=("$tmpName"); REPOINT_ORIGINS+=("$tmpOrigin")
 done < <(find "$MONOREPO/modules" -mindepth 3 -maxdepth 3 -name .git 2>/dev/null | sort)
-[ "$tmpSkippedNonForkable" -gt 0 ] && info "($tmpSkippedNonForkable non-forkable / personal module(s) off the canonical org left untouched.)"
+[ "$tmpSkipped" -gt 0 ] && info "($tmpSkipped non-forkable / personal clone(s) off canonical left untouched.)"
 
-tmpCount=${#FORK_DIRS[@]}
-if [ "$tmpCount" -eq 0 ]; then ok "No forked clones found — this monorepo is already fork-free. Nothing to do."; exit 0; fi
+# (B) your GitHub forks (forkable) — from GitHub, so this survives re-pointing.
+DELETE_NAMES=(); DELETE_BRANCHES=()
+if [ "$HAVE_GH" = 1 ] && [ -n "$FORK_OWNER" ]; then
+	while IFS=$'\t' read -r tmpN tmpB; do
+		[ -z "$tmpN" ] && continue
+		is_forkable "$tmpN" || continue
+		DELETE_NAMES+=("$tmpN"); DELETE_BRANCHES+=("${tmpB:-main}")
+	done < <(gh repo list "$FORK_OWNER" --fork --limit 1000 --json name,defaultBranchRef \
+		--jq '.[] | [.name, (.defaultBranchRef.name // "main")] | @tsv' 2>/dev/null | sort)
+fi
 
-# ─────────────────────────────────── Phase 0: report ────────────────────────────────────────
-hdr "Report — $tmpCount forked module clone(s) to clean"
-info "  (checking each against canonical — in-sync clones are confirmed via ls-remote; only ones that"
-info "   differ get fetched. This never trusts the local 'upstream' ref, which can be stale.)"
-declare -a RISK_AHEAD RISK_DIRTY
-printf '%s\n' "  ${C_DIM}module                         fork-owner        risk${C_RESET}"
-for i in "${!FORK_DIRS[@]}"; do
-	tmpDir="${FORK_DIRS[$i]}"; tmpName="${FORK_NAMES[$i]}"; tmpOwner="${FORK_OWNERS[$i]}"
-	tmpRisk=""
-	# dirty working tree?
-	if [ -n "$(git -C "$tmpDir" status --porcelain 2>/dev/null)" ]; then tmpRisk="dirty-tree"; RISK_DIRTY+=("$tmpName"); fi
-	# ahead of canonical? accurate + cheap: if canonical's branch tip == local HEAD the clone is in sync
-	# (no fetch needed); otherwise fetch canonical and count local commits it lacks.
-	tmpBranch="$(git -C "$tmpDir" rev-parse --abbrev-ref HEAD 2>/dev/null)"
-	tmpHead="$(git -C "$tmpDir" rev-parse HEAD 2>/dev/null)"
-	tmpCanonSha="$(git ls-remote "https://github.com/$CANONICAL_ORG/$tmpName.git" "refs/heads/$tmpBranch" 2>/dev/null | cut -f1)"
-	tmpAhead=0
-	if [ -z "$tmpCanonSha" ]; then tmpAhead='?'
-	elif [ "$tmpCanonSha" != "$tmpHead" ]; then
-		if git -C "$tmpDir" fetch "https://github.com/$CANONICAL_ORG/$tmpName.git" "$tmpBranch" --quiet 2>/dev/null; then
-			tmpAhead="$(git -C "$tmpDir" rev-list --count FETCH_HEAD..HEAD 2>/dev/null || echo '?')"
-		else tmpAhead='?'; fi
-	fi
-	if [ "$tmpAhead" != "0" ]; then tmpRisk="${tmpRisk:+$tmpRisk, }ahead:$tmpAhead"; RISK_AHEAD+=("$tmpName"); fi
-	printf '  %-30s %-17s %s\n' "$tmpName" "$tmpOwner" "${tmpRisk:+${C_YELLOW}$tmpRisk${C_RESET}}"
+if [ "${#REPOINT_DIRS[@]}" -eq 0 ] && [ "${#DELETE_NAMES[@]}" -eq 0 ]; then
+	ok "Nothing to do — no forkable clones off canonical and no forkable forks on your account. Already clean."
+	exit 0
+fi
+
+# ─────────────────────────────────────── report ────────────────────────────────────────
+hdr "Report"
+say "  ${C_BOLD}Re-point${C_RESET} (local clones still on a fork → $CANONICAL_ORG): ${#REPOINT_DIRS[@]}"
+for i in "${!REPOINT_NAMES[@]}"; do
+	tmpDirty=""; [ -n "$(git -C "${REPOINT_DIRS[$i]}" status --porcelain 2>/dev/null)" ] && tmpDirty=" ${C_YELLOW}(dirty — commit first; see Commit-Dirty.sh)${C_RESET}"
+	printf '    %-34s %s%s\n' "${REPOINT_NAMES[$i]}" "$(url_owner "${REPOINT_ORIGINS[$i]}")" "$tmpDirty"
 done
-[ "${#RISK_AHEAD[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_AHEAD[@]} fork(s) are AHEAD of canonical (unmerged commits — skipped at deletion unless --force): ${RISK_AHEAD[*]}"
-[ "${#RISK_DIRTY[@]}" -gt 0 ] && warn "  ⚠ ${#RISK_DIRTY[@]} clone(s) have a DIRTY working tree (commit first — see Commit-Dirty.sh): ${RISK_DIRTY[*]}"
-info "  (Deletion re-verifies fresh + the backup bundles ALL refs, so nothing is lost regardless.)"
-
-if [ "$DRY_RUN" = 1 ]; then hdr "Dry-run complete."; info "Re-run without --dry-run to act on the gates."; exit 0; fi
-if ! gate "Proceed with cleanup of the $tmpCount module(s) above?"; then say "Aborted — no changes made."; exit 0; fi
-
-# ─────────────────────────── Phase 1: backup every ref to ~/Tmp ──────────────────────────────
-if [ "$DO_BACKUP" = 1 ]; then
-	hdr "Backup — bundling every ref to $BACKUP_DIR"
-	mkdir -p "$BACKUP_DIR"
-	for i in "${!FORK_DIRS[@]}"; do
-		tmpDir="${FORK_DIRS[$i]}"; tmpName="${FORK_NAMES[$i]}"
-		if [ -f "$BACKUP_DIR/$tmpName.bundle" ]; then info "  $tmpName — already backed up, skipping"; continue; fi
-		if git -C "$tmpDir" bundle create "$BACKUP_DIR/$tmpName.bundle" --all >/dev/null 2>&1; then
-			git -C "$tmpDir" remote -v > "$BACKUP_DIR/$tmpName.remotes.txt" 2>/dev/null
-			ok "  $tmpName — bundled ($(du -h "$BACKUP_DIR/$tmpName.bundle" | cut -f1))"
-		else
-			err "  $tmpName — BUNDLE FAILED; it will be skipped for fork deletion."
-			FORK_OWNERS[$i]="__BACKUP_FAILED__"
-		fi
+say "  ${C_BOLD}Delete${C_RESET} (your GitHub forks under $FORK_OWNER → removed): ${#DELETE_NAMES[@]}"
+if [ "${#DELETE_NAMES[@]}" -gt 0 ]; then
+	info "    (comparing each fork to canonical — forks with unmerged commits are backed up + skipped unless --force)"
+	AHEAD_NAMES=()
+	for i in "${!DELETE_NAMES[@]}"; do
+		tmpN="${DELETE_NAMES[$i]}"; tmpB="${DELETE_BRANCHES[$i]}"
+		tmpAhead="$(gh api "repos/$FORK_OWNER/$tmpN/compare/$CANONICAL_ORG:$tmpB...$tmpB" --jq '.ahead_by' 2>/dev/null)"
+		[ -z "$tmpAhead" ] && tmpAhead='?'
+		if [ "$tmpAhead" != "0" ]; then AHEAD_NAMES+=("$tmpN"); printf '    %-34s %s\n' "$tmpN" "${C_YELLOW}ahead of canonical: $tmpAhead${C_RESET}"; fi
 	done
-	info "  Restore any module later with:  git clone $BACKUP_DIR/<name>.bundle <dir>"
-else
-	warn "Backup disabled (--no-backup)."
+	[ "${#AHEAD_NAMES[@]}" -gt 0 ] && warn "    ⚠ ${#AHEAD_NAMES[@]} fork(s) are AHEAD of canonical — mirror-backed-up then skipped (unless --force): ${AHEAD_NAMES[*]}"
 fi
 
-# ─────────────────────────── Phase 2: re-point origin -> canonical ───────────────────────────
-hdr "Re-point — origin -> $CANONICAL_ORG, drop upstream"
-if gate "Re-point local remotes now?"; then
-	for i in "${!FORK_DIRS[@]}"; do
-		tmpDir="${FORK_DIRS[$i]}"; tmpName="${FORK_NAMES[$i]}"; tmpOrigin="${FORK_ORIGINS[$i]}"
-		tmpNew="$(canonical_url "$tmpOrigin" "$tmpName")"
-		git -C "$tmpDir" remote set-url origin "$tmpNew"
-		git -C "$tmpDir" remote get-url upstream >/dev/null 2>&1 && git -C "$tmpDir" remote remove upstream
-		git -C "$tmpDir" fetch origin --quiet 2>/dev/null || true
-		ok "  $tmpName — origin -> $tmpNew"
-	done
-else
-	warn "Skipped re-point."
+if [ "$DRY_RUN" = 1 ]; then hdr "Dry-run complete — no changes made."; exit 0; fi
+if ! gate "Proceed?"; then say "Aborted — no changes made."; exit 0; fi
+
+# ─────────────────────── re-point (with a local-clone bundle backup) ───────────────────────
+if [ "${#REPOINT_DIRS[@]}" -gt 0 ]; then
+	hdr "Re-point — origin → $CANONICAL_ORG, drop upstream"
+	if gate "Re-point ${#REPOINT_DIRS[@]} local clone(s) now?"; then
+		[ "$DO_BACKUP" = 1 ] && mkdir -p "$BACKUP_DIR"
+		for i in "${!REPOINT_DIRS[@]}"; do
+			tmpDir="${REPOINT_DIRS[$i]}"; tmpName="${REPOINT_NAMES[$i]}"; tmpOrigin="${REPOINT_ORIGINS[$i]}"
+			if [ "$DO_BACKUP" = 1 ] && [ ! -f "$BACKUP_DIR/$tmpName.bundle" ]; then
+				git -C "$tmpDir" bundle create "$BACKUP_DIR/$tmpName.bundle" --all >/dev/null 2>&1 && git -C "$tmpDir" remote -v > "$BACKUP_DIR/$tmpName.remotes.txt" 2>/dev/null
+			fi
+			tmpNew="https://github.com/$CANONICAL_ORG/$tmpName.git"
+			printf '%s' "$tmpOrigin" | grep -q '^git@' && tmpNew="git@github.com:$CANONICAL_ORG/$tmpName.git"
+			git -C "$tmpDir" remote set-url origin "$tmpNew"
+			git -C "$tmpDir" remote get-url upstream >/dev/null 2>&1 && git -C "$tmpDir" remote remove upstream
+			ok "  $tmpName — origin → $tmpNew"
+		done
+	else warn "Skipped re-point."; fi
 fi
 
-# ─────────────────────────── Phase 3: delete the personal forks ─────────────────────────────
-hdr "Delete forks — remove <owner>/<module> from GitHub (PERMANENT)"
-if [ "$HAVE_GH" = 0 ]; then
-	warn "gh CLI not authenticated — skipping fork deletion. Install/login with:  gh auth login  (needs delete_repo scope: gh auth refresh -s delete_repo)"
-elif gate "Delete the personal GitHub forks now? This cannot be undone." "DELETE"; then
-	for i in "${!FORK_DIRS[@]}"; do
-		tmpDir="${FORK_DIRS[$i]}"; tmpName="${FORK_NAMES[$i]}"; tmpOwner="${FORK_OWNERS[$i]}"
-		[ "$tmpOwner" = "__BACKUP_FAILED__" ] && { warn "  $tmpName — backup failed earlier; NOT deleting."; continue; }
-		[ "$tmpOwner" = "$CANONICAL_ORG" ] && continue
-		# idempotent: skip if the fork is already gone
-		if ! gh repo view "$tmpOwner/$tmpName" >/dev/null 2>&1; then info "  $tmpOwner/$tmpName — already gone"; continue; fi
-		# safety: FRESH-fetch canonical and refuse to delete if this clone has commits canonical lacks
-		# (an accurate ff-check — does not trust the possibly-stale local 'upstream' ref). The bundle
-		# backup in ~/Tmp still holds every ref regardless, so nothing is lost even with --force.
-		tmpBranch="$(git -C "$tmpDir" rev-parse --abbrev-ref HEAD 2>/dev/null)"
-		if git -C "$tmpDir" fetch "https://github.com/$CANONICAL_ORG/$tmpName.git" "$tmpBranch" --quiet 2>/dev/null; then
-			tmpForkAhead="$(git -C "$tmpDir" rev-list --count FETCH_HEAD..HEAD 2>/dev/null || echo '?')"
-		else
-			tmpForkAhead='?'   # couldn't verify — treat as risky
-		fi
-		if [ "$tmpForkAhead" != "0" ] && [ "$FORCE" = 0 ]; then
-			warn "  $tmpOwner/$tmpName — $tmpForkAhead commit(s) ahead of canonical (or unverifiable); skipping. Land them first, or --force (refs are in the backup)."
-			continue
-		fi
-		if gh repo delete "$tmpOwner/$tmpName" --yes >/dev/null 2>&1; then ok "  $tmpOwner/$tmpName — deleted"
-		else err "  $tmpOwner/$tmpName — delete failed (needs 'delete_repo' scope? run: gh auth refresh -s delete_repo)"; fi
-	done
-else
-	warn "Skipped fork deletion."
+# ─────────────────────────────── delete the personal forks ───────────────────────────────
+if [ "${#DELETE_NAMES[@]}" -gt 0 ]; then
+	hdr "Delete forks — remove $FORK_OWNER/<module> from GitHub (PERMANENT)"
+	if [ "$HAVE_GH" = 0 ]; then warn "gh not authenticated — skipping."
+	else
+	gh auth status 2>&1 | grep -q 'delete_repo' || warn "  (note: 'delete_repo' scope not detected — if deletes fail with a 403, run: gh auth refresh -s delete_repo)"
+	if gate "Delete ${#DELETE_NAMES[@]} personal fork(s)? This cannot be undone." "DELETE"; then
+		mkdir -p "$BACKUP_DIR"
+		for i in "${!DELETE_NAMES[@]}"; do
+			tmpN="${DELETE_NAMES[$i]}"; tmpB="${DELETE_BRANCHES[$i]}"
+			if ! gh repo view "$FORK_OWNER/$tmpN" >/dev/null 2>&1; then info "  $FORK_OWNER/$tmpN — already gone"; continue; fi
+			tmpAhead="$(gh api "repos/$FORK_OWNER/$tmpN/compare/$CANONICAL_ORG:$tmpB...$tmpB" --jq '.ahead_by' 2>/dev/null)"
+			[ -z "$tmpAhead" ] && tmpAhead='?'
+			if [ "$tmpAhead" != "0" ]; then
+				# preserve the fork's unique commits before we consider deleting it
+				[ -d "$BACKUP_DIR/$tmpN.fork.git" ] || git clone --mirror "https://github.com/$FORK_OWNER/$tmpN.git" "$BACKUP_DIR/$tmpN.fork.git" >/dev/null 2>&1
+				if [ "$FORCE" = 0 ]; then
+					warn "  $FORK_OWNER/$tmpN — ahead of canonical by $tmpAhead; mirror-backed-up to $BACKUP_DIR/$tmpN.fork.git; SKIPPING (use --force to delete)."
+					continue
+				fi
+			fi
+			if gh repo delete "$FORK_OWNER/$tmpN" --yes >/dev/null 2>&1; then ok "  $FORK_OWNER/$tmpN — deleted"
+			else err "  $FORK_OWNER/$tmpN — delete failed"; fi
+		done
+	else warn "Skipped fork deletion."; fi
+	fi
 fi
 
-# ─────────────────────── Phase 4: (optional) flip the manifest + regen ───────────────────────
+# ─────────────────────── (optional) flip the manifest + regen ───────────────────────
 if [ "$FLIP_MANIFEST" = 1 ]; then
 	hdr "Manifest — set Forkable:false on every module + regenerate the shell list"
-	warn "This edits the shared Retold-Modules-Manifest.json. It is a ONE-TIME canonical change:"
-	warn "run it on ONE machine, commit + push, and have everyone else 'git pull' — don't commit it from five machines."
+	warn "ONE-TIME canonical change: run on ONE machine, commit + push, everyone else 'git pull'."
 	if gate "Flip Forkable:false in the manifest now (local edit only; you commit)?"; then
 		node -e '
 			const fs=require("fs"); const p=process.argv[1];
 			const m=JSON.parse(fs.readFileSync(p,"utf8")); let n=0;
-			for (const g of (m.Groups||[])) for (const mod of (g.Modules||[])) {
-				if (mod.Forkable !== false) { mod.Forkable = false; n++; }
-			}
-			fs.writeFileSync(p, JSON.stringify(m,null,"\t")+"\n");
-			console.log("  set Forkable:false on "+n+" module(s)");
+			for (const g of (m.Groups||[])) for (const mod of (g.Modules||[])) if (mod.Forkable !== false) { mod.Forkable = false; n++; }
+			fs.writeFileSync(p, JSON.stringify(m,null,"\t")+"\n"); console.log("  set Forkable:false on "+n+" module(s)");
 		' "$MONOREPO/Retold-Modules-Manifest.json"
-		if [ -f "$MONOREPO/package.json" ] && grep -q '"rebuild-modules"' "$MONOREPO/package.json"; then
+		[ -f "$MONOREPO/package.json" ] && grep -q '"rebuild-modules"' "$MONOREPO/package.json" && \
 			( cd "$MONOREPO" && npm run --silent rebuild-modules >/dev/null 2>&1 ) && ok "  regenerated modules/Include-Retold-Module-List.sh"
-		fi
 		info "  Review + commit:  cd $MONOREPO && git add Retold-Modules-Manifest.json modules/Include-Retold-Module-List.sh && git commit -m 'Retire the fork model (Forkable:false)'"
-	else
-		warn "Skipped manifest flip."
-	fi
+	else warn "Skipped manifest flip."; fi
 fi
 
 hdr "Done."
-[ "$DO_BACKUP" = 1 ] && ok "Backups (git bundles of every ref) are in: $BACKUP_DIR"
-ok "Re-run any time — it is idempotent (canonical clones + deleted forks are skipped)."
+[ -d "$BACKUP_DIR" ] && ok "Backups are in: $BACKUP_DIR"
+ok "Idempotent — re-run any time; re-pointed clones and deleted forks are skipped."
