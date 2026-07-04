@@ -107,6 +107,18 @@
 					"Type": "library"
 				},
 				{
+					"Name": "retold-mcp",
+					"Path": "modules/fable/retold-mcp",
+					"Description": "Serve any meadow-endpoints REST API to AI agents over the Model Context Protocol (stdio and streamable HTTP). A catalog-driven engine that knows MCP and meadow conventions, not the entities of any one application.",
+					"GitHub": "https://github.com/fable-retold/retold-mcp",
+					"Documentation": "https://fable-retold.github.io/retold-mcp/",
+					"RelatedModules": [
+						"fable-serviceproviderbase",
+						"meadow-endpoints"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "ultravisor-beacon",
 					"Path": "modules/fable/ultravisor-beacon",
 					"Description": "Ultravisor Beacon: lightweight beacon client and Fable service for remote task execution",
