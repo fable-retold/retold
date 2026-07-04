@@ -11,8 +11,9 @@
  *   1. clone the app from fable-retold if it isn't checked out,
  *   2. `npm install` its dependencies on first run,
  *   3. build the web bundle (the app repo doesn't commit webinterface/dist),
- *   4. derive the v2 Modules-Manifest.json from the umbrella's Retold-Modules-Manifest.json,
- *   5. launch: `npx manager` → web UI on 44444 (auto-open); `npx manager <verb…>` → forwarded to the CLI.
+ *   4. launch pointed straight at the umbrella's existing Retold-Modules-Manifest.json (no conversion —
+ *      the app only needs Groups[].Modules[] and defaults its own runtime config):
+ *      `npx manager` → web UI on 44444 (auto-open); `npx manager <verb…>` → forwarded to the CLI.
  */
 const libPath = require('path');
 const libFs = require('fs');
@@ -22,8 +23,7 @@ const ROOT = libPath.resolve(__dirname, '..');                                  
 const APP_DIR = libPath.join(ROOT, 'modules', 'apps', 'retold-monorepo-manager');
 const APP_REPO = 'https://github.com/fable-retold/retold-monorepo-manager.git';
 const APP_CLI = libPath.join(APP_DIR, 'source', 'cli', 'MonorepoManager-Run.cjs');
-const LEGACY_MANIFEST = libPath.join(ROOT, 'Retold-Modules-Manifest.json');
-const V2_MANIFEST = libPath.join(ROOT, 'Modules-Manifest.json');
+const MANIFEST = libPath.join(ROOT, 'Retold-Modules-Manifest.json');   // read directly — the app only needs Groups[].Modules[]
 const DIST_DIR = libPath.join(APP_DIR, 'webinterface', 'dist');
 
 function step(pMessage) { console.log('  [manager] ' + pMessage); }
@@ -83,20 +83,12 @@ if (tmpIsWeb && !hasBundle())
 	if (runSync('npm', ['run', 'build'], { cwd: APP_DIR }).status !== 0) { fail('web build failed (npm run build in ' + APP_DIR + ').'); }
 }
 
-// ── 4. derive the v2 manifest from the umbrella's legacy manifest ──
-if (libFs.existsSync(LEGACY_MANIFEST))
-{
-	const tmpStale = !libFs.existsSync(V2_MANIFEST) ||
-		libFs.statSync(LEGACY_MANIFEST).mtimeMs > libFs.statSync(V2_MANIFEST).mtimeMs;
-	if (tmpStale)
-	{
-		step('generating Modules-Manifest.json from Retold-Modules-Manifest.json …');
-		runSync('node', [APP_CLI, 'manifest', 'migrate', '--input', LEGACY_MANIFEST, '--output', V2_MANIFEST, '--write'], { cwd: ROOT });
-		if (!libFs.existsSync(V2_MANIFEST)) { fail('could not generate ' + V2_MANIFEST + ' (manifest migrate did not write it).'); }
-	}
-}
+// ── 4. launch — point the app straight at Retold-Modules-Manifest.json (no conversion) ──
+// Only inject --manifest when the user didn't pass their own and the file is actually here
+// (so a non-retold monorepo still falls back to the app's own upward search).
+const tmpHasManifest = tmpArgv.indexOf('-m') !== -1 || tmpArgv.indexOf('--manifest') !== -1;
+const tmpManifestArg = (!tmpHasManifest && libFs.existsSync(MANIFEST)) ? ['--manifest', MANIFEST] : [];
 
-// ── 5. launch (cwd = ROOT so the app finds Modules-Manifest.json by upward search) ──
 let tmpAppArgs;
 if (tmpIsWeb)
 {
@@ -112,12 +104,12 @@ if (tmpIsWeb)
 		if (a === '--port' || a === '--host') { tmpPass.push(a, tmpArgv[++i]); continue; }
 		tmpPass.push(a);
 	}
-	tmpAppArgs = ['web'].concat(tmpPass);
+	tmpAppArgs = ['web'].concat(tmpManifestArg).concat(tmpPass);
 	if (tmpOpen) { tmpAppArgs.push('--open'); }
 }
 else
 {
-	tmpAppArgs = tmpArgv.slice();
+	tmpAppArgs = tmpArgv.slice().concat(tmpManifestArg);
 }
 
 const tmpResult = runSync('node', [APP_CLI].concat(tmpAppArgs), { cwd: ROOT });
