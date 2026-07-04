@@ -91,7 +91,8 @@ if (libFs.existsSync(LEGACY_MANIFEST))
 	if (tmpStale)
 	{
 		step('generating Modules-Manifest.json from Retold-Modules-Manifest.json …');
-		runSync('node', [APP_CLI, 'manifest', 'migrate', '--input', LEGACY_MANIFEST, '--output', V2_MANIFEST], { cwd: ROOT });
+		runSync('node', [APP_CLI, 'manifest', 'migrate', '--input', LEGACY_MANIFEST, '--output', V2_MANIFEST, '--write'], { cwd: ROOT });
+		if (!libFs.existsSync(V2_MANIFEST)) { fail('could not generate ' + V2_MANIFEST + ' (manifest migrate did not write it).'); }
 	}
 }
 
