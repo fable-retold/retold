@@ -12,6 +12,10 @@
 #             local origin — so it still finds them after re-pointing. Each fork is compared to canonical
 #             first; a fork with commits canonical lacks is mirror-backed-up to ~/Tmp and then skipped
 #             (unless --force). Idempotent: already-deleted forks are skipped.
+#   UMBRELLA  the monorepo-root repo itself (e.g. your `retold` checkout) is re-pointed the same way
+#             (origin -> canonical, drop `upstream`); its fork is offered for deletion LAST, behind a
+#             separate `DELETE-UMBRELLA` gate — it's the repo other machines still pull from, so only
+#             delete it once every machine has re-pointed. Reconcile/land local umbrella commits first.
 #
 # Runs per user/machine over whatever it has: the fork owner is your gh login, so you can delete every
 # fork from ONE machine and just re-point on the others. Personal (Forkable:false) modules are never
@@ -144,7 +148,19 @@ if [ "$HAVE_GH" = 1 ] && [ -n "$FORK_OWNER" ]; then
 		--jq '.[] | [.name, (.defaultBranchRef.name // "main")] | @tsv' 2>/dev/null | sort)
 fi
 
-if [ "${#REPOINT_DIRS[@]}" -eq 0 ] && [ "${#DELETE_NAMES[@]}" -eq 0 ]; then
+# (C) the umbrella repo itself (the monorepo root) — retire the fork model here too.
+UMBRELLA_DIR=""; UMBRELLA_ORIGIN=""; UMBRELLA_REPO=""; UMBRELLA_TARGET=""; UMBRELLA_HASUP=0
+if git -C "$MONOREPO" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+	tmpUO="$(git -C "$MONOREPO" remote get-url origin 2>/dev/null)"
+	if printf '%s' "$tmpUO" | grep -q 'github\.com' && [ "$(url_owner "$tmpUO")" != "$CANONICAL_ORG" ]; then
+		UMBRELLA_DIR="$MONOREPO"; UMBRELLA_ORIGIN="$tmpUO"; UMBRELLA_REPO="$(basename "$tmpUO" .git)"
+		UMBRELLA_TARGET="https://github.com/$CANONICAL_ORG/$UMBRELLA_REPO.git"
+		printf '%s' "$tmpUO" | grep -q '^git@' && UMBRELLA_TARGET="git@github.com:$CANONICAL_ORG/$UMBRELLA_REPO.git"
+		git -C "$MONOREPO" remote get-url upstream >/dev/null 2>&1 && UMBRELLA_HASUP=1
+	fi
+fi
+
+if [ "${#REPOINT_DIRS[@]}" -eq 0 ] && [ "${#DELETE_NAMES[@]}" -eq 0 ] && [ -z "$UMBRELLA_DIR" ]; then
 	ok "Nothing to do — no forkable clones off canonical and no forkable forks on your account. Already clean."
 	exit 0
 fi
@@ -156,6 +172,10 @@ for i in "${!REPOINT_NAMES[@]}"; do
 	tmpDirty=""; [ -n "$(git -C "${REPOINT_DIRS[$i]}" status --porcelain 2>/dev/null)" ] && tmpDirty=" ${C_YELLOW}(dirty — commit first; see Commit-Dirty.sh)${C_RESET}"
 	printf '    %-34s %s%s\n' "${REPOINT_NAMES[$i]}" "$(url_owner "${REPOINT_ORIGINS[$i]}")" "$tmpDirty"
 done
+if [ -n "$UMBRELLA_DIR" ]; then
+	tmpUd=""; [ -n "$(git -C "$UMBRELLA_DIR" status --porcelain 2>/dev/null)" ] && tmpUd=" ${C_YELLOW}(dirty — commit first)${C_RESET}"
+	say "  ${C_BOLD}Re-point umbrella${C_RESET} ($UMBRELLA_REPO: $(url_owner "$UMBRELLA_ORIGIN") → $CANONICAL_ORG$([ "$UMBRELLA_HASUP" = 1 ] && printf '%s' ', drop upstream'))$tmpUd"
+fi
 say "  ${C_BOLD}Delete${C_RESET} (your GitHub forks under $FORK_OWNER → removed): ${#DELETE_NAMES[@]}"
 DELETE_AHEAD=()   # per-index cache (aligned with DELETE_NAMES) so the delete loop doesn't re-compare
 if [ "${#DELETE_NAMES[@]}" -gt 0 ]; then
@@ -198,6 +218,26 @@ if [ "${#REPOINT_DIRS[@]}" -gt 0 ]; then
 	else warn "Skipped re-point."; fi
 fi
 
+# ── umbrella repo (the monorepo root itself) ──
+if [ -n "$UMBRELLA_DIR" ]; then
+	hdr "Re-point umbrella — $UMBRELLA_REPO origin → $CANONICAL_ORG$([ "$UMBRELLA_HASUP" = 1 ] && printf '%s' ', drop upstream')"
+	if gate "Re-point the umbrella repo ($UMBRELLA_REPO) now?"; then
+		if [ "$DO_BACKUP" = 1 ]; then
+			mkdir -p "$BACKUP_DIR"
+			[ -f "$BACKUP_DIR/$UMBRELLA_REPO.umbrella.bundle" ] || { git -C "$UMBRELLA_DIR" bundle create "$BACKUP_DIR/$UMBRELLA_REPO.umbrella.bundle" --all >/dev/null 2>&1 && git -C "$UMBRELLA_DIR" remote -v > "$BACKUP_DIR/$UMBRELLA_REPO.umbrella.remotes.txt" 2>/dev/null; }
+		fi
+		git -C "$UMBRELLA_DIR" remote set-url origin "$UMBRELLA_TARGET"
+		[ "$UMBRELLA_HASUP" = 1 ] && git -C "$UMBRELLA_DIR" remote remove upstream 2>/dev/null
+		ok "  $UMBRELLA_REPO — origin → $UMBRELLA_TARGET"
+		# warn if the local branch carries commits not yet on the new canonical origin
+		tmpBr="$(git -C "$UMBRELLA_DIR" rev-parse --abbrev-ref HEAD 2>/dev/null)"
+		if git -C "$UMBRELLA_DIR" fetch --quiet origin "$tmpBr" 2>/dev/null; then
+			tmpUAhead="$(git -C "$UMBRELLA_DIR" rev-list --count "origin/$tmpBr..$tmpBr" 2>/dev/null)"
+			[ -n "$tmpUAhead" ] && [ "$tmpUAhead" -gt 0 ] && warn "  ⚠ $tmpUAhead local umbrella commit(s) not yet on $CANONICAL_ORG/$UMBRELLA_REPO — reconcile + push (git -C \"$UMBRELLA_DIR\" push origin $tmpBr) before deleting the fork."
+		fi
+	else warn "Skipped umbrella re-point."; fi
+fi
+
 # ─────────────────────────────── delete the personal forks ───────────────────────────────
 if [ "${#DELETE_NAMES[@]}" -gt 0 ]; then
 	hdr "Delete forks — remove $FORK_OWNER/<module> from GitHub (PERMANENT)"
@@ -222,6 +262,25 @@ if [ "${#DELETE_NAMES[@]}" -gt 0 ]; then
 			else err "  $FORK_OWNER/$tmpN — delete failed"; fi
 		done
 	else warn "Skipped fork deletion."; fi
+	fi
+fi
+
+# ── delete the umbrella fork (separate + last: it's the repo other machines still pull from) ──
+if [ -n "$UMBRELLA_DIR" ] && [ "$HAVE_GH" = 1 ] && [ -n "$FORK_OWNER" ] && \
+	gh repo view "$FORK_OWNER/$UMBRELLA_REPO" --json isFork --jq '.isFork' 2>/dev/null | grep -q true; then
+	hdr "Delete umbrella fork — $FORK_OWNER/$UMBRELLA_REPO from GitHub (PERMANENT)"
+	warn "  Do this LAST — only after every machine + colleague has re-pointed their umbrella origin to $CANONICAL_ORG (it's the repo they pull from)."
+	tmpUB="$(gh api "repos/$FORK_OWNER/$UMBRELLA_REPO" --jq '.default_branch' 2>/dev/null)"; tmpUB="${tmpUB:-main}"
+	tmpUAh="$(gh api "repos/$FORK_OWNER/$UMBRELLA_REPO/compare/$CANONICAL_ORG:$tmpUB...$tmpUB" --jq '.ahead_by' 2>/dev/null)"; [ -z "$tmpUAh" ] && tmpUAh='?'
+	if [ "$tmpUAh" != "0" ]; then
+		mkdir -p "$BACKUP_DIR"; [ -d "$BACKUP_DIR/$UMBRELLA_REPO.fork.git" ] || git clone --mirror "https://github.com/$FORK_OWNER/$UMBRELLA_REPO.git" "$BACKUP_DIR/$UMBRELLA_REPO.fork.git" >/dev/null 2>&1
+		[ "$FORCE" = 0 ] && warn "  $FORK_OWNER/$UMBRELLA_REPO — ahead of canonical by $tmpUAh; mirror-backed-up; SKIPPING (reconcile/land it first, or --force)."
+	fi
+	if [ "$tmpUAh" = "0" ] || [ "$FORCE" = 1 ]; then
+		if gate "Delete the umbrella fork $FORK_OWNER/$UMBRELLA_REPO? Irreversible + other machines pull from it." "DELETE-UMBRELLA"; then
+			if gh repo delete "$FORK_OWNER/$UMBRELLA_REPO" --yes >/dev/null 2>&1; then ok "  $FORK_OWNER/$UMBRELLA_REPO — deleted"
+			else err "  $FORK_OWNER/$UMBRELLA_REPO — delete failed"; fi
+		else warn "  Skipped umbrella fork deletion."; fi
 	fi
 fi
 
