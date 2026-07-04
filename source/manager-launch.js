@@ -9,8 +9,10 @@
  *
  * It will, as needed:
  *   1. clone the app from fable-retold if it isn't checked out,
- *   2. `npm install` its dependencies on first run,
- *   3. build the web bundle (the app repo doesn't commit webinterface/dist),
+ *   1b. pull the app when its working tree is clean, so UI/dependency updates flow to every machine
+ *       (skipped if you have local changes),
+ *   2. `npm install` its dependencies on first run OR after an update,
+ *   3. build the web bundle on first run OR after an update (the app repo doesn't commit webinterface/dist),
  *   4. launch pointed straight at the umbrella's existing Retold-Modules-Manifest.json (no conversion —
  *      the app only needs Groups[].Modules[] and defaults its own runtime config):
  *      `npx manager` → web UI on 44444 (auto-open); `npx manager <verb…>` → forwarded to the CLI.
@@ -29,6 +31,7 @@ const DIST_DIR = libPath.join(APP_DIR, 'webinterface', 'dist');
 function step(pMessage) { console.log('  [manager] ' + pMessage); }
 function fail(pMessage) { console.error('  [manager] ' + pMessage); process.exit(1); }
 function runSync(pCommand, pArgs, pOptions) { return libChildProcess.spawnSync(pCommand, pArgs, Object.assign({ stdio: 'inherit' }, pOptions || {})); }
+function capture(pCommand, pArgs, pOptions) { let r = libChildProcess.spawnSync(pCommand, pArgs, Object.assign({ encoding: 'utf8' }, pOptions || {})); return ((r && r.stdout) || '').trim(); }
 
 function printUsage()
 {
@@ -68,18 +71,40 @@ if (!libFs.existsSync(APP_CLI))
 	}
 }
 
-// ── 2. dependencies installed? ────────────────────────────────────
-if (!libFs.existsSync(libPath.join(APP_DIR, 'node_modules')))
+// ── 1b. keep the app current: pull when its tree is clean; refresh deps + bundle if it moved ──
+let tmpAppUpdated = false;
+if (libFs.existsSync(APP_CLI))
 {
-	step('installing app dependencies (first run — this can take a minute) …');
+	let tmpDirty = capture('git', [ 'status', '--porcelain' ], { cwd: APP_DIR });
+	if (tmpDirty)
+	{
+		step('app has local changes — skipping auto-update (commit/stash them to receive updates).');
+	}
+	else
+	{
+		let tmpBefore = capture('git', [ 'rev-parse', 'HEAD' ], { cwd: APP_DIR });
+		runSync('git', [ 'pull', '--ff-only', '--quiet' ], { cwd: APP_DIR });   // best-effort — ignore failure (offline / diverged)
+		let tmpAfter = capture('git', [ 'rev-parse', 'HEAD' ], { cwd: APP_DIR });
+		if (tmpBefore && tmpAfter && tmpBefore !== tmpAfter)
+		{
+			tmpAppUpdated = true;
+			step('app updated ' + tmpBefore.slice(0, 7) + ' → ' + tmpAfter.slice(0, 7) + ' — refreshing dependencies + web bundle …');
+		}
+	}
+}
+
+// ── 2. dependencies installed / refreshed? ────────────────────────
+if (!libFs.existsSync(libPath.join(APP_DIR, 'node_modules')) || tmpAppUpdated)
+{
+	step('installing app dependencies (this can take a minute) …');
 	if (runSync('npm', ['install'], { cwd: APP_DIR }).status !== 0) { fail('npm install failed in ' + APP_DIR); }
 }
 
-// ── 3. web bundle built? (only needed for the web UI) ─────────────
+// ── 3. web bundle built / rebuilt? (only needed for the web UI) ────
 function hasBundle() { try { return libFs.readdirSync(DIST_DIR).some((f) => f.endsWith('.js')); } catch (pError) { return false; } }
-if (tmpIsWeb && !hasBundle())
+if (tmpIsWeb && (!hasBundle() || tmpAppUpdated))
 {
-	step('building the web interface (first run) …');
+	step('building the web interface …');
 	if (runSync('npm', ['run', 'build'], { cwd: APP_DIR }).status !== 0) { fail('web build failed (npm run build in ' + APP_DIR + ').'); }
 }
 
