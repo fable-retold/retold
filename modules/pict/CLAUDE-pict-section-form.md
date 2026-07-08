@@ -22,25 +22,28 @@ When in doubt: read `complex_table/Complex-Tabular-Application.js` and copy a de
 Every input is a descriptor. Common shape:
 
 ```js
-"DescriptorKey":
+"DataContainer.DescriptorAddress": // the object KEY is the DataAddress — where this value lives in the data object
 {
     Name: "Display Name",
-    Hash: "DescriptorKey",       // must match the object key
-    DataType: "String",          // String, PreciseNumber, Number, Object, Boolean, ...
-    Default: "",                 // optional initial value
+    Hash: "DescriptorHash",        // a convenience name / alias for the descriptor; many functions accept either hash or address
+    DataAddress: "DataConatiner.DescriptorAddress", // matches the descriptor key
+    DataType: "String",            // String, PreciseNumber, Number, Object, Boolean, ...
+    Default: "",                   // optional initial value
     PictForm:
     {
-        Section: "SectionA",     // visual grouping (top-level)
-        Group:   "GroupA",       // sub-grouping within a section
-        Row:     1,              // row within the group
-        Width:   3,              // 12-column grid; this cell occupies 3 cols
-        InputType: "Text",       // dispatch key — selects which input provider renders this
+        Section: "SectionA",       // visual grouping (top-level)
+        Group:   "GroupA",         // sub-grouping within a section
+        Row:     1,                // row within the group
+        Width:   3,                // 12-column grid; this cell occupies 3 cols
+        InputType: "Text",         // dispatch key — selects which input provider renders this
         // ...InputType-specific properties below
     }
 }
 ```
 
 `Descriptors` is an object keyed by descriptor key. Manifests passed to the recordset's `manifestDefinitions` AND form configurations both use this shape — same descriptor catalog, two consumers.
+
+**The object key IS the data address — not a label.** The key under `Descriptors` is the path where the value lives in the data object; `DataAddress` defaults from it if omitted. `Hash` is a convenience alias (used in DOM ids, view/section lookups) — can equal the key, and `manyfest` data reads can use it for data access. To bind a value at a **nested** path, key the descriptor by that path (e.g. `"DataContainer.ObjectProperty1": { Hash: "Prop1", Name: "Property 1", ... }`) — do **not** give it a friendly key plus a divergent `DataAddress`. Manifests with descriptor keys that don't match their `DataAddress` are a defect and likely to break the form.
 
 ## InputType cheat sheet
 
