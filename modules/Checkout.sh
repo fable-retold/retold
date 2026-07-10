@@ -38,7 +38,7 @@ check_out_repository()
 	local cloneOwner
 	if [ "$4" = "1" ]
 	then
-		cloneOwner="$ME"
+		cloneOwner="$3"
 	else
 		cloneOwner="$3"
 	fi
