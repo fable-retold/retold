@@ -1780,6 +1780,20 @@
 					},
 					"Owner": "fable-retold",
 					"Forkable": false
+				},
+				{
+					"Name": "retold-npm-proxy",
+					"Path": "modules/apps/retold-npm-proxy",
+					"Description": "Command-line control for the Retold local npm registry / pull-through cache (Verdaccio): start/stop/status, warehouse the whole dependency tree for offline installs, and publish private packages into it via a direct tarball PUT. Companion to retold-monorepo-manager.",
+					"GitHub": "https://github.com/fable-retold/retold-npm-proxy",
+					"RelatedModules": [
+						"fable",
+						"pict",
+						"retold-monorepo-manager"
+					],
+					"Type": "library",
+					"Owner": "fable-retold",
+					"Forkable": false
 				}
 			]
 		},
