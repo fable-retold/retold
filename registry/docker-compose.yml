@@ -1,0 +1,17 @@
+# Run the Retold registry in docker instead of directly. Same config, same storage
+# on disk (bind-mounted), so `npm start` and `docker compose up` are interchangeable
+# and share one warehouse.
+#
+#   docker compose up -d        # start
+#   docker compose down         # stop
+#
+services:
+  registry:
+    image: verdaccio/verdaccio:5
+    container_name: retold-registry
+    ports:
+      - "4873:4873"
+    volumes:
+      - ./config.yaml:/verdaccio/conf/config.yaml:ro
+      - ./storage:/verdaccio/storage
+    restart: unless-stopped

@@ -1,0 +1,50 @@
+# Retold local npm registry + pull-through cache (Verdaccio).
+#
+# Unscoped, local-first: every package resolves through here. Anything published
+# locally (the retold modules) is served from ./storage and wins; anything else is
+# fetched from npmjs on first request and then WAREHOUSED in ./storage forever, so a
+# second install -- on this box or any box you copy ./storage to -- never leaves the
+# building. Drop the `npmjs` uplink from a package rule (or run offline) and it serves
+# purely from the warehouse: a hard miss then fails, which is exactly what an air-gap
+# build wants.
+
+storage: ./storage
+
+# Local htpasswd auth. This is the whole "account system": a plaintext file next to
+# the registry. It exists only so the npm client has a token to send when publishing;
+# there is no email verification, no org, no SSO. `npm adduser --registry <this>` once
+# and you are done. (gitignored.)
+auth:
+  htpasswd:
+    file: ./htpasswd
+    # Anyone on the box may register a publisher; it never leaves localhost/the LAN.
+    max_users: 1000
+
+uplinks:
+  npmjs:
+    url: https://registry.npmjs.org/
+    cache: true          # keep every tarball we ever proxy -- this is the warehouse
+    maxage: 30m          # how long cached metadata is trusted before revalidating
+    max_fails: 3
+    # When npmjs is unreachable, keep serving whatever is already in ./storage.
+    fail_timeout: 10m
+
+packages:
+  '**':
+    access: $all
+    publish: $all        # a personal/team cache -- no enterprise auth required
+    unpublish: $all
+    proxy: npmjs         # miss -> fetch + warehouse; a locally published version always wins
+
+# Local cache; anonymous is fine. Tighten only if this ever leaves localhost/the LAN.
+security:
+  api:
+    legacy: true
+
+log: { type: stdout, format: pretty, level: http }
+
+# All interfaces so a container or another machine on the LAN can reach it.
+listen: 0.0.0.0:4873
+
+web:
+  title: Retold Registry

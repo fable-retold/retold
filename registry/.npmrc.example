@@ -1,0 +1,10 @@
+# Point a project (or your user ~/.npmrc) at the local registry.
+#
+# Unscoped means the GLOBAL registry is redirected: every install goes through the
+# proxy, which serves local packages from the warehouse and proxies + caches the rest.
+# When the registry is stopped, remove/comment this line to fall back to vanilla npm.
+registry=http://localhost:4873/
+
+# A local cache does not need a real login; any token satisfies the client. The
+# retold-npm-proxy tool sets this up for you. For a manual one-off:
+#   npm adduser --registry http://localhost:4873   (dummy user, no email verification)

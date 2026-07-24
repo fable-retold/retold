@@ -1,0 +1,14 @@
+{
+  "name": "retold-registry",
+  "version": "0.0.1",
+  "private": true,
+  "description": "Retold local npm registry + pull-through cache (Verdaccio). Warehouses every tarball the monorepo references and hosts the private retold packages, with no enterprise npm, accounts, or tokens.",
+  "scripts": {
+    "start": "verdaccio --config ./config.yaml --listen 4873",
+    "warehouse": "node ./bin/warehouse.js"
+  },
+  "devDependencies": {
+    "verdaccio": "^5.32.2"
+  },
+  "license": "MIT"
+}

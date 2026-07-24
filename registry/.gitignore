@@ -1,0 +1,9 @@
+# The warehouse itself is a rebuildable / portable artifact, never committed:
+# regenerate it from the lockfiles with `npm run warehouse`, or carry ./storage
+# around on a drive. Committing it would bloat the umbrella repo without bound.
+storage/
+
+node_modules/
+*.log
+.DS_Store
+htpasswd
