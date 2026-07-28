@@ -28,7 +28,10 @@ DO_PUBLISH=0
 [ "${1:-}" = "--yes" ] && DO_PUBLISH=1
 
 # Never auto-publish these, even when the local version is ahead of npm.
-EXCLUDE=( "meadow-endpoints" )
+#   meadow-endpoints: npm 'latest' is 2.x for back-compat consumers; the 4.x line is intentionally local-only.
+#   stacks: private bookstore app whose name collides with the public 'Stacks framework' (stacksjs/stacks) on
+#           npmjs; it belongs only in the local registry, never on public npm.
+EXCLUDE=( "meadow-endpoints" "stacks" )
 is_excluded() { local n="$1"; for e in "${EXCLUDE[@]}"; do [ "$e" = "$n" ] && return 0; done; return 1; }
 
 # Publishing needs an npm login; a dry run does not, so only hard-require it for --yes.
