@@ -1,0 +1,7 @@
+# Secrets and local state -- never commit these.
+.env
+*.log
+.DS_Store
+
+# The mounted volume, if anyone runs the appliance from inside this folder for testing.
+data/

@@ -1,0 +1,25 @@
+# Retold appliance -- run on a NAS / Synology Diskstation (DSM Container Manager reads this file).
+#
+# Two things to set before `docker compose up -d`:
+#   1. the volume line -> a big-disk shared folder on the NAS (holds module checkouts + the warehouse)
+#   2. GH_TOKEN in a sibling .env file (see .env.example) -> a read-only fine-grained PAT
+#
+# Then reach it over the tailnet by name:  registry = http://<nas-name>:4873/   manager = :44444
+
+services:
+  retold-appliance:
+    build: .
+    # After you push a prebuilt image somewhere, swap `build: .` for:
+    # image: your-registry.example/retold-appliance:latest
+    container_name: retold-appliance
+    restart: unless-stopped
+    ports:
+      - "4873:4873"     # npm registry (point every node's .npmrc here)
+      - "44444:44444"   # monorepo manager web UI
+    environment:
+      - GH_TOKEN=${GH_TOKEN:-}
+      - RETOLD_UMBRELLA_REPO=https://github.com/fable-retold/retold.git
+      - RETOLD_UMBRELLA_BRANCH=master
+    volumes:
+      # LEFT side = the NAS folder with lots of disk. RIGHT side is fixed.
+      - /volume1/retold:/data
