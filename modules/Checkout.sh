@@ -10,8 +10,11 @@ echo "### Checking out Retold modules into: [$(pwd)/..."
 ME=$(gh api user --jq '.login' 2>/dev/null)
 if [ -z "$ME" ]
 then
-	echo "ERROR: cannot determine your GitHub user. Run 'gh auth login' first."
-	exit 1
+	# ME is cosmetic now that every module clones from its own owner (the fork model is retired), so a
+	# missing gh identity is not fatal -- it just means public-only mode (e.g. the appliance with no token).
+	# Public repos clone anonymously; private/Optional repos are probed with gh and skipped when unseen.
+	echo "### Note: no gh identity -- cloning public modules only; private/Optional repos will be skipped."
+	ME="(unauthenticated)"
 fi
 echo "### Cloning as: $ME (canonical org: $canonicalOrg)"
 
