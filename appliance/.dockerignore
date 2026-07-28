@@ -1,0 +1,6 @@
+# Keep the build context small and secret-free. The image only needs the Dockerfile, entrypoint.sh,
+# and registry.config.yaml -- everything below is either runtime state or a local secret.
+data/
+.env
+*.log
+.DS_Store

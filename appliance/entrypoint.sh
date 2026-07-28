@@ -37,6 +37,10 @@ else
 	log "No GH_TOKEN set: public modules only; private repos are skipped."
 fi
 git config --global --add safe.directory '*'
+# NAS / network shares frequently drop the POSIX executable bit, so with git's default core.fileMode
+# every checked-out script and binary (mode 100755 -> 100644) would show up as "modified." Ignore
+# file-mode changes so a fresh checkout stays clean.
+git config --global core.fileMode false
 
 # --- 2. umbrella: clone or fast-forward --------------------------------------
 if [ -d "$UMBRELLA/.git" ]; then
