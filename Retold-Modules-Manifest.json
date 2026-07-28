@@ -1798,6 +1798,92 @@
 			]
 		},
 		{
+			"Name": "Private",
+			"Description": "Access-gated modules that live outside the public ecosystem, checked out into modules/private/. Marked Optional so anyone without access skips them cleanly instead of erroring.",
+			"Path": "modules/private",
+			"Modules": [
+				{
+					"Name": "retold-application-foundation",
+					"Path": "modules/private/retold-application-foundation",
+					"Description": "Umbrella for the Retold Application Foundation: the create-retold-app scaffolder and the retoldApp manifest conventions that let an app be config, not code.",
+					"GitHub": "https://github.com/stevenvelozo/retold-application-foundation",
+					"Documentation": false,
+					"RelatedModules": [
+						"retold-application-foundation-server",
+						"retold-application-foundation-client",
+						"retold-deploy-tool",
+						"stacks"
+					],
+					"Type": "library",
+					"Owner": "stevenvelozo",
+					"Forkable": false,
+					"Optional": true
+				},
+				{
+					"Name": "retold-application-foundation-server",
+					"Path": "modules/private/retold-application-foundation-server",
+					"Description": "Server chassis for foundation apps: boots Fable, Orator, and Meadow with auto-CRUD, tenancy, auth, and the static SPA from a compiled Stricture model.",
+					"GitHub": "https://github.com/stevenvelozo/retold-application-foundation-server",
+					"Documentation": false,
+					"RelatedModules": [
+						"retold-application-foundation",
+						"meadow-endpoints",
+						"orator",
+						"pict-section-recordset"
+					],
+					"Type": "library",
+					"Owner": "stevenvelozo",
+					"Forkable": false,
+					"Optional": true
+				},
+				{
+					"Name": "retold-application-foundation-client",
+					"Path": "modules/private/retold-application-foundation-client",
+					"Description": "Browser chassis for foundation apps: extends pict-section-recordset and builds the whole UI from /1.0/AppManifest.",
+					"GitHub": "https://github.com/stevenvelozo/retold-application-foundation-client",
+					"Documentation": false,
+					"RelatedModules": [
+						"retold-application-foundation-server",
+						"pict-section-recordset"
+					],
+					"Type": "library",
+					"Owner": "stevenvelozo",
+					"Forkable": false,
+					"Optional": true
+				},
+				{
+					"Name": "retold-deploy-tool",
+					"Path": "modules/private/retold-deploy-tool",
+					"Description": "Deployment tool (rdt) for Retold Application Foundation apps.",
+					"GitHub": "https://github.com/stevenvelozo/retold-deploy-tool",
+					"Documentation": false,
+					"RelatedModules": [
+						"retold-application-foundation"
+					],
+					"Type": "library",
+					"Owner": "stevenvelozo",
+					"Forkable": false,
+					"Optional": true
+				},
+				{
+					"Name": "stacks",
+					"Path": "modules/private/stacks",
+					"Description": "Multi-tenant bookstore-chain reference application: the first real app built on the Retold Application Foundation.",
+					"GitHub": "https://github.com/stevenvelozo/stacks",
+					"Documentation": false,
+					"RelatedModules": [
+						"retold-application-foundation",
+						"retold-application-foundation-server",
+						"retold-application-foundation-client"
+					],
+					"Type": "webapp",
+					"Owner": "stevenvelozo",
+					"Forkable": false,
+					"Optional": true
+				}
+			]
+		},
+		{
 			"Name": "Tools",
 			"Description": "Standalone repo-level tools shipped alongside the module ecosystem (not part of any individual module).",
 			"Path": "source",

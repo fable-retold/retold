@@ -59,6 +59,11 @@ process_repository_set()
 	# Enumerate all repository addresses and check them out
 	for repositoryAddress in ${repositorySetRepositories[@]}; do
 		echo ""
+		# Access-gated (private) modules you don't have are silently skipped: no error, no "run Checkout" note.
+		if [ "$repositorySetName" = "private" ] && [ ! -d "$(pwd)/$repositorySetName/$repositoryAddress" ]
+		then
+			continue
+		fi
 		echo "[ U ] --> #####[ $repositorySetName -> $repositoryAddress ]#####"
 		update_repository $repositorySetName $repositoryAddress
 	done
@@ -70,3 +75,4 @@ process_repository_set "orator" "${repositoriesOrator[@]}"
 process_repository_set "pict" "${repositoriesPict[@]}"
 process_repository_set "utility" "${repositoriesUtility[@]}"
 process_repository_set "apps" "${repositoriesApps[@]}"
+process_repository_set "private" "${repositoriesPrivate[@]}"

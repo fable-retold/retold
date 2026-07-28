@@ -40,6 +40,11 @@ process_repository_set()
 	local repositorySetRepositories=("$@") # Rebuild the array with rest of arguments
 	# Enumerate all repository addresses and check them out
 	for repositoryAddress in ${repositorySetRepositories[@]}; do
+		# Access-gated (private) modules you don't have are silently skipped: no error, no missing-count.
+		if [ "$repositorySetName" = "private" ] && [ ! -d "$(pwd)/$repositorySetName/$repositoryAddress" ]
+		then
+			continue
+		fi
 		status_repository $repositorySetName $repositoryAddress
 	done
 }
@@ -50,6 +55,7 @@ process_repository_set "orator" "${repositoriesOrator[@]}"
 process_repository_set "pict" "${repositoriesPict[@]}"
 process_repository_set "utility" "${repositoriesUtility[@]}"
 process_repository_set "apps" "${repositoriesApps[@]}"
+process_repository_set "private" "${repositoriesPrivate[@]}"
 
 echo ""
 echo "===== Summary ====="

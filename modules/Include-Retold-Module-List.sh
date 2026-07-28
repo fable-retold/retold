@@ -11,25 +11,36 @@ canonicalOrg="fable-retold"
 repositoriesFable=("fable" "fable-log" "fable-log-logger-bunyan" "fable-serviceproviderbase" "fable-settings" "fable-ultravisor-client" "fable-uuid" "fable-workflow" "retold-mcp" "ultravisor-beacon" "ultravisor-beacon-capability")
 ownersFable=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "stevenvelozo" "stevenvelozo")
 forkableFable=("1" "1" "1" "1" "1" "1" "1" "1" "1" "0" "0")
+optionalFable=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
 repositoriesMeadow=("bibliograph" "bibliograph-storage-meadow" "foxhound" "meadow" "meadow-connection-dgraph" "meadow-connection-manager" "meadow-connection-meadow-endpoints" "meadow-connection-mongodb" "meadow-connection-mssql" "meadow-connection-mysql" "meadow-connection-oracle" "meadow-connection-postgresql" "meadow-connection-rocksdb" "meadow-connection-retold-databeacon" "meadow-connection-solr" "meadow-connection-sqlite" "meadow-connection-sqlite-browser" "meadow-endpoints" "meadow-graph-client" "meadow-integration" "meadow-migrationmanager" "meadow-provider-offline" "parime" "retold-data-service" "retold-harness" "retold-harness-consistency-proxy" "stricture")
 ownersMeadow=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold")
 forkableMeadow=("1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
+optionalMeadow=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
 repositoriesOrator=("orator" "orator-authentication" "orator-conversion" "orator-endpoint" "orator-http-proxy" "orator-serviceserver-base" "orator-serviceserver-restify" "orator-ssl-proxy" "orator-static-server" "tidings")
 ownersOrator=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold")
 forkableOrator=("1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
+optionalOrator=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
 repositoriesPict=("cryptbrau" "informary" "pict" "pict-application" "pict-docuserve" "pict-editor-timeline" "pict-meadow-connection-manager" "pict-nonlinearconfig" "pict-panel" "pict-provider" "pict-provider-graphgeometry" "pict-provider-graphlayout" "pict-provider-keybindings" "pict-provider-theme" "pict-provider-vocabulary" "pict-router" "pict-section-clone" "pict-section-code" "pict-section-comments" "pict-section-connection-form" "pict-section-content" "pict-section-dashboard" "pict-section-entitymanagement" "pict-section-equation" "pict-section-excalidraw" "pict-section-filebrowser" "pict-section-flow" "pict-section-form" "pict-section-formeditor" "pict-section-histogram" "pict-section-inlinedocumentation" "pict-section-login" "pict-section-mapping" "pict-section-markdowneditor" "pict-section-modal" "pict-section-moodboard" "pict-section-navigation" "pict-section-objecteditor" "pict-section-openseadragon" "pict-renderer-graph" "pict-section-operation" "pict-section-picker" "pict-dataexplorer" "pict-section-prompteditor" "pict-section-recordset" "pict-section-theme" "pict-section-tuigrid" "pict-section-usermanagement" "pict-service-commandlineutility" "pict-serviceproviderbase" "pict-sessionmanager" "pict-template" "pict-template-preprocessor" "pict-terminalui" "pict-view" "pict-section-upload" "pict-section-accordion" "pict-section-dataimport")
 ownersPict=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold")
 forkablePict=("1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
+optionalPict=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
 repositoriesUtility=("cachetrax" "choreographic" "cumulation" "elucidator" "indoctrinate" "manyfest" "manyfest-conversion" "merquerial" "pict-cruisecontrol" "precedent" "quackage" "retold-sample-data" "retold-sharp")
 ownersUtility=("fable-retold" "stevenvelozo" "fable-retold" "stevenvelozo" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold")
 forkableUtility=("1" "0" "1" "0" "1" "1" "1" "1" "1" "1" "1" "1" "1")
+optionalUtility=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
 repositoriesApps=("retold-beacon-host" "retold-content-system" "retold-data-mapper" "retold-databeacon" "retold-documentation-beacon" "retold-facto" "retold-remote" "retold-remote-desktop" "retold-remote-ios" "retold-synth-databeacon" "retold-workflow" "ultravisor" "ultravisor-auth-beacon" "ultravisor-file-stream" "ultravisor-lab" "ultravisor-suite-harness" "retold-monorepo-manager" "retold-npm-proxy")
 ownersApps=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "fable-retold" "fable-retold" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "fable-retold" "fable-retold")
 forkableApps=("1" "1" "1" "1" "0" "0" "0" "0" "0" "1" "1" "0" "0" "0" "0" "0" "0" "0")
+optionalApps=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
+
+repositoriesPrivate=("retold-application-foundation" "retold-application-foundation-server" "retold-application-foundation-client" "retold-deploy-tool" "stacks")
+ownersPrivate=("stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo")
+forkablePrivate=("0" "0" "0" "0" "0")
+optionalPrivate=("1" "1" "1" "1" "1")
 
 echo "### ... Module lists built!"

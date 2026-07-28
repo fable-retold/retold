@@ -7,8 +7,9 @@
  *   node bin/manifest-rebuild-shell.js --print   # stdout only (for piping)
  *
  * Zero external dependencies. Reads Retold-Modules-Manifest.json, writes the
- * six `repositoriesXxx=(...)` bash arrays in the same layout the current file
- * uses. Preserves the shebang + the two `echo` wrapper lines so the shell
+ * per-group `repositoriesXxx`/`ownersXxx`/`forkableXxx`/`optionalXxx` bash
+ * arrays in the same layout the current file uses. Preserves the shebang + the
+ * two `echo` wrapper lines so the shell
  * scripts that source this file (Checkout.sh, Status.sh, Update.sh) keep
  * printing their familiar banner.
  *
@@ -34,6 +35,7 @@ const GROUPS =
 	{ ManifestName: 'Pict',    ShellVar: 'repositoriesPict' },
 	{ ManifestName: 'Utility', ShellVar: 'repositoriesUtility' },
 	{ ManifestName: 'Apps',    ShellVar: 'repositoriesApps' },
+	{ ManifestName: 'Private', ShellVar: 'repositoriesPrivate' },
 ];
 
 // ─────────────────────────────────────────────
@@ -55,7 +57,9 @@ function loadManifest()
 				Name: pModule.Name,
 				Owner: pModule.Owner || tmpDefaultOwner,
 				// Modules default to Forkable: true; explicit `false` keeps a module pinned to its owner.
-				Forkable: pModule.Forkable !== false
+				Forkable: pModule.Forkable !== false,
+				// Optional modules (access-gated, e.g. private repos) are probed before clone and skipped cleanly when unreachable.
+				Optional: pModule.Optional === true
 			};
 		});
 	}
@@ -82,10 +86,12 @@ function renderShell(pLoaded)
 		let tmpNames = tmpModules.map(function (pM) { return '"' + pM.Name + '"'; }).join(' ');
 		let tmpOwners = tmpModules.map(function (pM) { return '"' + pM.Owner + '"'; }).join(' ');
 		let tmpForkable = tmpModules.map(function (pM) { return pM.Forkable ? '"1"' : '"0"'; }).join(' ');
+		let tmpOptional = tmpModules.map(function (pM) { return pM.Optional ? '"1"' : '"0"'; }).join(' ');
 		tmpParts.push('');
 		tmpParts.push(tmpGroup.ShellVar + '=(' + tmpNames + ')');
 		tmpParts.push(tmpGroup.ShellVar.replace('repositories', 'owners') + '=(' + tmpOwners + ')');
 		tmpParts.push(tmpGroup.ShellVar.replace('repositories', 'forkable') + '=(' + tmpForkable + ')');
+		tmpParts.push(tmpGroup.ShellVar.replace('repositories', 'optional') + '=(' + tmpOptional + ')');
 	}
 
 	tmpParts.push('');
