@@ -1330,6 +1330,20 @@
 					"Type": "library"
 				},
 				{
+					"Name": "pict-externalui",
+					"Path": "modules/pict/pict-externalui",
+					"Description": "Host a pict application over a socket-first external UI protocol so native providers (Godot, Tauri, NodeGui, and webview shells) render its views",
+					"GitHub": "https://github.com/fable-retold/pict-externalui",
+					"Documentation": "https://fable-retold.github.io/pict-externalui/",
+					"RelatedModules": [
+						"pict",
+						"pict-view",
+						"pict-application",
+						"pict-terminalui"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "pict-view",
 					"Path": "modules/pict/pict-view",
 					"Description": "View base class with full lifecycle (initialize, render, solve, marshal), renderables, and CSS injection",
