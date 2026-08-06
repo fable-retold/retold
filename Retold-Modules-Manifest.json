@@ -1000,6 +1000,20 @@
 					"Type": "library"
 				},
 				{
+					"Name": "pict-section-form-host",
+					"Path": "modules/pict/pict-section-form-host",
+					"Description": "A cohesive programmatic container for embedding a pict-section-form into a div or iframe, with one configuration surface for the form manifest, render destination, AppData marshaling location and lifecycle hooks.",
+					"GitHub": "https://github.com/fable-retold/pict-section-form-host",
+					"Documentation": "https://fable-retold.github.io/pict-section-form-host/",
+					"RelatedModules": [
+						"pict",
+						"pict-provider",
+						"pict-application",
+						"pict-section-form"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "pict-section-formeditor",
 					"Path": "modules/pict/pict-section-formeditor",
 					"Description": "Visual form editor for designing pict-section-form configurations",
@@ -2248,6 +2262,26 @@
 					"DisplayName": "simple_table",
 					"HostModule": "pict-section-form",
 					"Path": "modules/pict/pict-section-form/example_applications/simple_table",
+					"Type": "example",
+					"Branding": {
+						"Palette": "carnival"
+					}
+				},
+				{
+					"Name": "pict-section-form-host/simple_host",
+					"DisplayName": "simple_host",
+					"HostModule": "pict-section-form-host",
+					"Path": "modules/pict/pict-section-form-host/example_applications/simple_host",
+					"Type": "example",
+					"Branding": {
+						"Palette": "carnival"
+					}
+				},
+				{
+					"Name": "pict-section-form-host/iframe_switcher",
+					"DisplayName": "iframe_switcher",
+					"HostModule": "pict-section-form-host",
+					"Path": "modules/pict/pict-section-form-host/example_applications/iframe_switcher",
 					"Type": "example",
 					"Branding": {
 						"Palette": "carnival"
