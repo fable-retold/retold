@@ -33,10 +33,10 @@ ownersUtility=("fable-retold" "stevenvelozo" "fable-retold" "stevenvelozo" "fabl
 forkableUtility=("1" "0" "1" "0" "1" "1" "1" "1" "1" "1" "1" "1" "1")
 optionalUtility=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
-repositoriesApps=("retold-beacon-host" "retold-content-system" "retold-data-mapper" "retold-databeacon" "retold-documentation-beacon" "retold-facto" "retold-remote" "retold-remote-desktop" "retold-remote-ios" "retold-synth-databeacon" "retold-workflow" "ultravisor" "ultravisor-auth-beacon" "ultravisor-file-stream" "ultravisor-lab" "ultravisor-suite-harness" "retold-monorepo-manager" "retold-npm-proxy")
-ownersApps=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "fable-retold" "fable-retold" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "fable-retold" "fable-retold")
-forkableApps=("1" "1" "1" "1" "0" "0" "0" "0" "0" "1" "1" "0" "0" "0" "0" "0" "0" "0")
-optionalApps=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
+repositoriesApps=("retold-beacon-host" "retold-content-system" "retold-data-mapper" "retold-databeacon" "retold-documentation-beacon" "retold-facto" "retold-operation-queue" "retold-remote" "retold-remote-desktop" "retold-remote-ios" "retold-synth-databeacon" "retold-workflow" "ultravisor" "ultravisor-auth-beacon" "ultravisor-file-stream" "ultravisor-lab" "ultravisor-suite-harness" "retold-monorepo-manager" "retold-npm-proxy")
+ownersApps=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "stevenvelozo" "stevenvelozo" "fable-retold" "stevenvelozo" "stevenvelozo" "stevenvelozo" "fable-retold" "fable-retold" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "fable-retold" "fable-retold")
+forkableApps=("1" "1" "1" "1" "0" "0" "1" "0" "0" "0" "1" "1" "0" "0" "0" "0" "0" "0" "0")
+optionalApps=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
 repositoriesPrivate=("retold-application-foundation" "retold-application-foundation-server" "retold-application-foundation-client" "retold-deploy-tool" "stacks")
 ownersPrivate=("stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo" "stevenvelozo")

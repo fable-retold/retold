@@ -1642,6 +1642,19 @@
 					"Forkable": false
 				},
 				{
+					"Name": "retold-operation-queue",
+					"Path": "modules/apps/retold-operation-queue",
+					"Description": "Intent/control layer over an execution queue: durable operation groups that lazily expand into leaf tasks, lane-based preemptive priority, cache-key dedup, and metered dispatch of a bounded window into a worker queue (for example Ultravisor).",
+					"GitHub": "https://github.com/fable-retold/retold-operation-queue",
+					"Documentation": false,
+					"RelatedModules": [
+						"ultravisor",
+						"fable-ultravisor-client",
+						"meadow"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "retold-remote",
 					"Path": "modules/apps/retold-remote",
 					"Description": "Remote access application built on the Retold ecosystem",
