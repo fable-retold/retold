@@ -841,6 +841,24 @@
 					"Type": "library"
 				},
 				{
+					"Name": "pict-section-activitygraph",
+					"Path": "modules/pict/pict-section-activitygraph",
+					"Description": "Pict section that renders a stacked-bar activity timeline: one bar per period, stacked by type or actor, across parallel domains. Themed SVG, no chart dependency.",
+					"GitHub": "https://github.com/fable-retold/pict-section-activitygraph",
+					"Documentation": false,
+					"RelatedModules": [],
+					"Type": "library"
+				},
+				{
+					"Name": "pict-section-checklist",
+					"Path": "modules/pict/pict-section-checklist",
+					"Description": "Inline-editable, nestable checklists for Pict: leaf checkboxes, per-tier and overall progress, a read-only view, and a pluggable data provider that defaults to in-memory AppData so it works in the browser with no backend.",
+					"GitHub": "https://github.com/fable-retold/pict-section-checklist",
+					"Documentation": false,
+					"RelatedModules": [],
+					"Type": "library"
+				},
+				{
 					"Name": "pict-section-clone",
 					"Path": "modules/pict/pict-section-clone",
 					"Description": "Embeddable Pict view for managing data-mapper Clone configurations: full-table-copy from one beacon to another. CRUD + Run. Used to mirror customer-installed data into a lake.",
@@ -1256,6 +1274,17 @@
 						"pict",
 						"pict-view",
 						"orator-authentication"
+					],
+					"Type": "library"
+				},
+				{
+					"Name": "pict-section-whiteboard",
+					"Path": "modules/pict/pict-section-whiteboard",
+					"Description": "Free-form whiteboard canvas (resizable cards plus shape, sticky-note, and free-text renderables, multi-select, alignment guides, and saved arrangements) built on pict-section-flow",
+					"GitHub": "https://github.com/fable-retold/pict-section-whiteboard",
+					"Documentation": false,
+					"RelatedModules": [
+						"pict-section-flow"
 					],
 					"Type": "library"
 				},
