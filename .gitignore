@@ -190,3 +190,9 @@ out
 .yarn/build-state.yml
 .yarn/install-state.gz
 .pnp.*
+
+# Local npm-proxy (purgatory) state — per-developer, never shared.
+# The tracked .npmrc deliberately keeps ONLY `package-lock=false`. Point npm at your own
+# private registry with `rnp use --global <url>` (writes ~/.npmrc), not by editing .npmrc here.
+.retold-npm-proxy.json
+.rnp-timemachine-progress*
