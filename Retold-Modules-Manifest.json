@@ -1574,6 +1574,19 @@
 					"Documentation": false,
 					"RelatedModules": [],
 					"Type": "library"
+				},
+				{
+					"Name": "retold-tool-manager",
+					"Path": "modules/utility/retold-tool-manager",
+					"Description": "Describe command-line tools as manifests and generate safe command lines and pipeline recipes from a UI; the runner owns quoting and platform variance",
+					"GitHub": "https://github.com/fable-retold/retold-tool-manager",
+					"Documentation": "https://fable-retold.github.io/retold-tool-manager/",
+					"RelatedModules": [
+						"fable",
+						"manyfest",
+						"pict-section-form"
+					],
+					"Type": "library"
 				}
 			]
 		},
