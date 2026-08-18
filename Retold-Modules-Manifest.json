@@ -939,6 +939,19 @@
 					"Type": "library"
 				},
 				{
+					"Name": "pict-section-dochistory",
+					"Path": "modules/pict/pict-section-dochistory",
+					"Description": "Version history for a document tree: a timeline of versions that says who changed what and from which side, and a rendered line diff between any two of them. Host-agnostic - two independently registerable views reading through host callbacks, with no transport of its own.",
+					"GitHub": "https://github.com/fable-retold/pict-section-dochistory",
+					"Documentation": false,
+					"RelatedModules": [
+						"pict",
+						"pict-view",
+						"pict-section-inlinedocumentation"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "pict-section-entitymanagement",
 					"Path": "modules/pict/pict-section-entitymanagement",
 					"Description": "Dynamic entity management sections leveraging pict-section-form metatemplates",
