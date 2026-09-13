@@ -1,6 +1,6 @@
 # Live Examples
 
-> **43 interactive, in-browser demos** of the Pict component libraries - real applications running live on GitHub Pages, not screenshots. Open any one and poke at it. The library each demonstrates links to its full documentation.
+> **47 interactive, in-browser demos** of the Pict component libraries - real applications running live on GitHub Pages, not screenshots. Open any one and poke at it. The library each demonstrates links to its full documentation.
 
 New to Pict? Start with [Hello World](https://fable-retold.github.io/pict/examples/hello_world/dist/), [Simple Table](https://fable-retold.github.io/pict-section-form/examples/simple_table/), or the [Theme Playground](https://fable-retold.github.io/pict-provider-theme/examples/theme-playground/). Level is a rough guide to how much of the framework a demo exercises, not how hard the component is to use.
 
@@ -49,7 +49,11 @@ New to Pict? Start with [Hello World](https://fable-retold.github.io/pict/exampl
 | [Shortcuts Playground](https://fable-retold.github.io/pict-provider-keybindings/examples/shortcuts_playground/) | Intermediate | Interactive catalog of every keybindings primitive - app-global bindings, chords, key sequences, the `?` cheatsheet, input guarding, suspend/resume, scopes, per-binding disable, and a live active-bindings list. | [pict-provider-keybindings](https://fable-retold.github.io/pict-provider-keybindings/) |
 | [Kanban Shortcuts](https://fable-retold.github.io/pict-provider-keybindings/examples/kanban_shortcuts/) | Advanced | A routed two-view app showing per-view binding lifecycle (shortcuts auto-evict on navigation), Route shortcuts that drive pict-router, and a view-local scope - the cheatsheet changes as you move between views. | [pict-provider-keybindings](https://fable-retold.github.io/pict-provider-keybindings/) |
 | [Music Explorer](https://fable-retold.github.io/pict-dataexplorer/examples/music_explorer/) | Beginner | A backend-free hierarchical "folders" data explorer - Artists, Albums and Tracks resolved from an in-memory dataset via custom Resolver functions, each record with a preview-card popout. | [pict-dataexplorer](https://fable-retold.github.io/pict-dataexplorer/) |
+| [Tab Bar Basics](https://fable-retold.github.io/pict-section-tabbar/examples/tabbar_basics/) | Basic | A flat, single-row tab bar switching a content panel - the buildTabs / active-state / layout loop at its simplest. | [pict-section-tabbar](https://fable-retold.github.io/pict-section-tabbar/) |
+| [Navigation Studio](https://fable-retold.github.io/pict-section-tabbar/examples/navigation_studio/) | Intermediate | The full tab-bar surface - submenu groups with active-child breadcrumbs, left/center/right pin zones, and a live toggle between the menu / wrap / scroll overflow strategies and display modes. | [pict-section-tabbar](https://fable-retold.github.io/pict-section-tabbar/) |
+| [Record Workspace](https://fable-retold.github.io/pict-section-workspace/examples/record_workspace/) | Basic | A single Product record as a tabbed workspace - a grouped, formatted Overview plus a bespoke render tab, driven entirely by a JSON config over an in-memory client. | [pict-section-workspace](https://fable-retold.github.io/pict-section-workspace/) |
+| [Operations Console](https://fable-retold.github.io/pict-section-workspace/examples/operations_console/) | Advanced | A Work Order console - grouped/pinned tabs, FK child-record lists, and the view / edit / create modes where the tab bar gives way to an edit form with Save and Cancel, all from one config. | [pict-section-workspace](https://fable-retold.github.io/pict-section-workspace/) |
 
 ---
 
-_41 examples, all verified live. Want to add one? See the [Example App Style Guide](../architecture/example-app-style-guide.md)._
+_47 examples, all verified live. Want to add one? See the [Example App Style Guide](../architecture/example-app-style-guide.md)._

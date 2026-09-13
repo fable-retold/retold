@@ -1251,6 +1251,15 @@
 					"Type": "library"
 				},
 				{
+					"Name": "pict-section-tabbar",
+					"Path": "modules/pict/pict-section-tabbar",
+					"Description": "Host-agnostic tab-bar UI helper: compact underline tabs with icons, submenu groups, pin zones, and menu/wrap/scroll overflow strategies -- a pure string-builder plus a small runtime, with no framework dependency.",
+					"GitHub": "https://github.com/fable-retold/pict-section-tabbar",
+					"Documentation": "https://fable-retold.github.io/pict-section-tabbar/",
+					"RelatedModules": [],
+					"Type": "library"
+				},
+				{
 					"Name": "pict-section-theme",
 					"Path": "modules/pict/pict-section-theme",
 					"Description": "Pict section that bundles every Retold-ecosystem theme (retold-default, retold-mono, twilight, cyberpunk, daylight, neo-tokyo, ...) and exposes reusable views -- a theme picker dropdown, a light/dark/system mode toggle, and an embeddable SVG topbar button that pops a theme submenu via pict-section-modal. Also ships the pict-section-theme-brand and pict-section-theme-favicons CLIs for precompute-time brand/favicon generation. Wraps pict-provider-theme.",
@@ -1298,6 +1307,21 @@
 					"Documentation": false,
 					"RelatedModules": [
 						"pict-section-flow"
+					],
+					"Type": "library"
+				},
+				{
+					"Name": "pict-section-workspace",
+					"Path": "modules/pict/pict-section-workspace",
+					"Description": "A declarative, config-driven tabbed workspace for a single entity record: a header, a tab bar, and per-tab content resolvers (overview / render / embed / assoc / childlist), plus view/edit/create modes and GUID-bridge routing.",
+					"GitHub": "https://github.com/fable-retold/pict-section-workspace",
+					"Documentation": "https://fable-retold.github.io/pict-section-workspace/",
+					"RelatedModules": [
+						"pict",
+						"pict-view",
+						"pict-provider",
+						"pict-section-tabbar",
+						"pict-section-recordset"
 					],
 					"Type": "library"
 				},
