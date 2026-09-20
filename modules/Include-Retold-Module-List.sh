@@ -28,9 +28,9 @@ ownersPict=("fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-r
 forkablePict=("1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
 optionalPict=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
-repositoriesUtility=("cachetrax" "choreographic" "cumulation" "elucidator" "indoctrinate" "manyfest" "manyfest-conversion" "merquerial" "pict-cruisecontrol" "precedent" "quackage" "retold-sample-data" "retold-sharp" "retold-tool-manager")
-ownersUtility=("fable-retold" "stevenvelozo" "fable-retold" "stevenvelozo" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold")
-forkableUtility=("1" "0" "1" "0" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
+repositoriesUtility=("cachetrax" "choreographic" "credence" "cumulation" "elucidator" "indoctrinate" "manyfest" "manyfest-conversion" "merquerial" "pict-cruisecontrol" "precedent" "quackage" "retold-sample-data" "retold-sharp" "retold-tool-manager")
+ownersUtility=("fable-retold" "stevenvelozo" "fable-retold" "fable-retold" "stevenvelozo" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold" "fable-retold")
+forkableUtility=("1" "0" "1" "1" "0" "1" "1" "1" "1" "1" "1" "1" "1" "1" "1")
 optionalUtility=("0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0" "0")
 
 repositoriesApps=("retold-beacon-host" "retold-content-system" "retold-data-mapper" "retold-databeacon" "retold-documentation-beacon" "retold-facto" "retold-operation-queue" "retold-remote" "retold-remote-desktop" "retold-remote-ios" "retold-synth-databeacon" "retold-workflow" "ultravisor" "ultravisor-auth-beacon" "ultravisor-file-stream" "ultravisor-lab" "ultravisor-suite-harness" "retold-monorepo-manager" "retold-npm-proxy")

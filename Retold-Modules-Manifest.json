@@ -1496,6 +1496,17 @@
 					"Forkable": false
 				},
 				{
+					"Name": "credence",
+					"Path": "modules/utility/credence",
+					"Description": "Pure sourced-assertion + confidence-reconciliation core: identify a subject, gather sourced claims, reconcile them into a best-current belief with provenance and certainty. Shared by Sluice (content/date beliefs across backups) and Facto (knowledge across scrapes)",
+					"GitHub": "https://github.com/fable-retold/credence",
+					"Documentation": "https://fable-retold.github.io/credence/",
+					"RelatedModules": [
+						"fable"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "cumulation",
 					"Path": "modules/utility/cumulation",
 					"Description": "Data synchronization library for managing cumulative state across distributed systems",
