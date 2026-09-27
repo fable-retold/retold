@@ -525,6 +525,18 @@
 					"Type": "library"
 				},
 				{
+					"Name": "orator-api-description",
+					"Path": "modules/orator/orator-api-description",
+					"Description": "Self-describing JSON API reference for Meadow/Orator servers: routes, request and response schemas, example payloads and curl snippets, auto-derived from the compiled model, plus a guides section.",
+					"GitHub": "https://github.com/fable-retold/orator-api-description",
+					"Documentation": "https://fable-retold.github.io/orator-api-description/",
+					"RelatedModules": [
+						"orator",
+						"meadow-endpoints"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "orator-authentication",
 					"Path": "modules/orator/orator-authentication",
 					"Description": "Orator server-side cookie-based session authentication with pluggable authenticator and optional OAuth/OIDC support.",
