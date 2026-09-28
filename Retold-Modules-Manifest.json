@@ -814,6 +814,19 @@
 					"Type": "library"
 				},
 				{
+					"Name": "pict-provider-progress",
+					"Path": "modules/pict/pict-provider-progress",
+					"Description": "Unified operation progress, event-logging and outcome reporting: a dependency-free core that turns a phased-operation state (the Fable Operation / ProgressTracker shape) into a display model with per-phase and whole-operation percent + ETA, plus a Pict provider that polls and normalizes it for a UI.",
+					"GitHub": "https://github.com/fable-retold/pict-provider-progress",
+					"Documentation": "https://fable-retold.github.io/pict-provider-progress/",
+					"RelatedModules": [
+						"pict",
+						"pict-provider",
+						"fable"
+					],
+					"Type": "library"
+				},
+				{
 					"Name": "pict-provider-theme",
 					"Path": "modules/pict/pict-provider-theme",
 					"Description": "Runtime theme manager for Pict applications: register theme bundles (token maps + CSS + SVG + image assets), apply at runtime via injected CSS custom properties, support dark/light/system modes via a class on <html>, plus a quack theme-build command that compiles unrolled theme folders to single self-contained JSON bundles. Stateless — host applications own theme persistence.",
