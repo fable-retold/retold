@@ -157,6 +157,26 @@ let _BookService = _Fable.instantiateServiceProvider('RetoldDataService',
 
 **npm:** `retold-data-service` - **Version:** 2.0.x
 
+
+---
+
+### [Retold-Faceting-Service](https://fable-retold.github.io/retold-faceting-service/)
+
+Facets for any retold-data-service: counts by month, status, owner, or anything reachable through the model graph, next to the list they describe. Folds run within an entity (terms, date and numeric histograms, stats) and across entities (semi- and anti-joins, rollups, many-to-many bridges, pivots, named scopes such as "my projects"). They are computed live from meadow queries under the list's own tenancy behaviors, and can optionally be served from a ClickHouse store kept fresh by change capture.
+
+```javascript
+const libRetoldFacetingService = require('retold-faceting-service');
+
+libRetoldFacetingService.installOnRetoldDataService(_Fable.RetoldDataService,
+    {
+        Definitions: { Path: `${__dirname}/facets/` },
+        Scope: { Policy: { Column: 'IDCustomer', SessionField: 'CustomerID' }, Guard: 'Strict' }
+    },
+    (pError) => { /* POST /1.0/Facet/<Entity>/Query is ready */ });
+```
+
+**npm:** `retold-faceting-service` - **Version:** 1.0.x
+
 ## Connection Modules
 
 | Module | Database | npm |
@@ -190,5 +210,6 @@ Each connection module provides a pooled database connection as a Fable service.
 | [meadow-connection-mssql](https://fable-retold.github.io/meadow-connection-mssql/) | MSSQL connection provider |
 | [meadow-connection-sqlite](https://fable-retold.github.io/meadow-connection-sqlite/) | SQLite connection provider |
 | [retold-data-service](https://fable-retold.github.io/retold-data-service/) | All-in-one schema-to-REST-API service |
+| [retold-faceting-service](https://fable-retold.github.io/retold-faceting-service/) | Facets within and across entities, live or from ClickHouse |
 | [retold-harness](https://fable-retold.github.io/retold-harness/) | Demo API harness with bookstore dataset |
 | [meadow-integration](https://fable-retold.github.io/meadow-integration/) | Data integration and CSV import |

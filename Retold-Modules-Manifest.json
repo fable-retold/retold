@@ -456,6 +456,26 @@
 					}
 				},
 				{
+					"Name": "retold-faceting-service",
+					"Path": "modules/meadow/retold-faceting-service",
+					"Description": "Facets over any retold-data-service: declarative folds within and across entities (terms, date/numeric histograms, stats, semi/anti-joins, rollups, pivots, named scopes), computed live from meadow queries under the list's own tenancy, optionally served from a ClickHouse store kept fresh by change capture.",
+					"GitHub": "https://github.com/fable-retold/retold-faceting-service",
+					"Documentation": "https://fable-retold.github.io/retold-faceting-service/",
+					"RelatedModules": [
+						"retold-data-service",
+						"meadow",
+						"meadow-endpoints",
+						"foxhound",
+						"meadow-filter"
+					],
+					"Type": "library",
+					"Branding": {
+						"Palette": "ocean",
+						"DisplayName": "Retold Faceting Service",
+						"Tagline": "Facets within and across entities, live or from ClickHouse"
+					}
+				},
+				{
 					"Name": "retold-harness",
 					"Path": "modules/meadow/retold-harness",
 					"Description": "Composable REST API harness with 3 pluggable schemas, 7 database providers, and a terminal management tool",

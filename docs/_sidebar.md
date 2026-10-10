@@ -72,6 +72,7 @@
   - [meadow-connection-retold-databeacon](https://fable-retold.github.io/meadow-connection-retold-databeacon/)
   - [meadow-graph-client](https://github.com/fable-retold/meadow-graph-client)
   - [retold-data-service](https://fable-retold.github.io/retold-data-service/)
+  - [retold-faceting-service](https://fable-retold.github.io/retold-faceting-service/)
   - [retold-harness](https://fable-retold.github.io/retold-harness/)
   - [retold-harness-consistency-proxy](https://fable-retold.github.io/retold-harness-consistency-proxy/)
   - [meadow-integration](https://fable-retold.github.io/meadow-integration/)
