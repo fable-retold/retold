@@ -1,5 +1,5 @@
 {
-	"Generated": "2026-06-25T19:01:52.628Z",
+	"Generated": "2026-10-12T05:29:42.379Z",
 	"Mode": "ecosystem",
 	"GitHubOrg": "fable-retold",
 	"DefaultBranch": "master",
@@ -752,6 +752,16 @@
 				{
 					"Name": "fable-workflow",
 					"Repo": "fable-workflow",
+					"Group": "fable",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "retold-mcp",
+					"Repo": "retold-mcp",
 					"Group": "fable",
 					"Branch": "master",
 					"HasDocs": false,
@@ -5442,6 +5452,351 @@
 					]
 				},
 				{
+					"Name": "retold-faceting-service",
+					"Repo": "retold-faceting-service",
+					"Group": "meadow",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Introduction",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Getting Started",
+									"Path": "Getting_Started.md"
+								},
+								{
+									"Title": "Architecture",
+									"Path": "Faceting_Architecture.md"
+								},
+								{
+									"Title": "Concepts",
+									"Path": "Concepts.md"
+								}
+							]
+						},
+						{
+							"Title": "Defining Facets",
+							"Children": [
+								{
+									"Title": "Definitions Files",
+									"Path": "Definitions.md"
+								},
+								{
+									"Title": "Configuration",
+									"Path": "Configuration.md"
+								}
+							]
+						},
+						{
+							"Title": "Fold Kinds",
+							"Children": [
+								{
+									"Title": "Choosing a Fold",
+									"Path": "Fold_Kinds.md"
+								},
+								{
+									"Title": "K1 Terms",
+									"Path": "fold_kinds/001-terms.md"
+								},
+								{
+									"Title": "K2 DateHistogram",
+									"Path": "fold_kinds/002-date-histogram.md"
+								},
+								{
+									"Title": "K3 NumericHistogram",
+									"Path": "fold_kinds/003-numeric-histogram.md"
+								},
+								{
+									"Title": "K4 Ranges",
+									"Path": "fold_kinds/004-ranges.md"
+								},
+								{
+									"Title": "K5 Stats",
+									"Path": "fold_kinds/005-stats.md"
+								},
+								{
+									"Title": "K6 DistinctCount",
+									"Path": "fold_kinds/006-distinct-count.md"
+								},
+								{
+									"Title": "K7 Missing",
+									"Path": "fold_kinds/007-missing.md"
+								},
+								{
+									"Title": "K8 PathTerms",
+									"Path": "fold_kinds/008-path-terms.md"
+								},
+								{
+									"Title": "K9 BridgeTerms",
+									"Path": "fold_kinds/009-bridge-terms.md"
+								},
+								{
+									"Title": "K10 PathSemiJoin",
+									"Path": "fold_kinds/010-path-semi-join.md"
+								},
+								{
+									"Title": "K11 AntiPath",
+									"Path": "fold_kinds/011-anti-path.md"
+								},
+								{
+									"Title": "K12 ChildRollup",
+									"Path": "fold_kinds/012-child-rollup.md"
+								},
+								{
+									"Title": "K14 Pivot",
+									"Path": "fold_kinds/014-pivot.md"
+								},
+								{
+									"Title": "K17 UnionOfPaths",
+									"Path": "fold_kinds/017-union-of-paths.md"
+								},
+								{
+									"Title": "K18 TuplePivot",
+									"Path": "fold_kinds/018-tuple-pivot.md"
+								},
+								{
+									"Title": "K19 HavingCount",
+									"Path": "fold_kinds/019-having-count.md"
+								},
+								{
+									"Title": "K20 ExistsSplit",
+									"Path": "fold_kinds/020-exists-split.md"
+								}
+							]
+						},
+						{
+							"Title": "API Reference",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "API_Reference.md"
+								},
+								{
+									"Title": "Routes",
+									"Path": "api/Routes.md"
+								},
+								{
+									"Title": "The Request Body",
+									"Path": "api/Request.md"
+								},
+								{
+									"Title": "The Response Envelope",
+									"Path": "api/Envelope.md"
+								},
+								{
+									"Title": "Describe",
+									"Path": "api/Describe.md"
+								},
+								{
+									"Title": "Records, Count and Keys",
+									"Path": "api/Records_And_Keys.md"
+								},
+								{
+									"Title": "The Change Feed (SSE)",
+									"Path": "api/Change_Feed.md"
+								},
+								{
+									"Title": "Errors and Limits",
+									"Path": "api/Errors_And_Limits.md"
+								},
+								{
+									"Title": "JavaScript API",
+									"Path": "api/JavaScript_API.md"
+								}
+							]
+						},
+						{
+							"Title": "Operations",
+							"Children": [
+								{
+									"Title": "Caching and Invalidation",
+									"Path": "Caching_And_Invalidation.md"
+								},
+								{
+									"Title": "The ClickHouse Store",
+									"Path": "ClickHouse_Store.md"
+								},
+								{
+									"Title": "Security and Tenancy",
+									"Path": "Security_And_Tenancy.md"
+								},
+								{
+									"Title": "Hosting",
+									"Path": "Hosting.md"
+								},
+								{
+									"Title": "Troubleshooting",
+									"Path": "Troubleshooting.md"
+								},
+								{
+									"Title": "Testing",
+									"Path": "Testing.md"
+								}
+							]
+						},
+						{
+							"Title": "Examples",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "Examples.md"
+								},
+								{
+									"Title": "The Faceting Demo",
+									"Path": "examples/Faceting_Demo.md"
+								},
+								{
+									"Title": "E1: Projects for Me",
+									"Path": "examples/E1_Projects_For_Me.md"
+								},
+								{
+									"Title": "E2: Documents by Form Type",
+									"Path": "examples/E2_Documents_By_Form_Type.md"
+								},
+								{
+									"Title": "E3: Lab Forms I Still Have to Fill Out",
+									"Path": "examples/E3_Lab_Forms_To_Fill_Out.md"
+								},
+								{
+									"Title": "Bookstore Explorer",
+									"Path": "examples/Bookstore_Explorer.md"
+								}
+							]
+						},
+						{
+							"Title": "Internals",
+							"Children": [
+								{
+									"Title": "Internals",
+									"Path": "Internals.md"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						".nojekyll",
+						"API_Reference.md",
+						"Caching_And_Invalidation.md",
+						"ClickHouse_Store.md",
+						"Concepts.md",
+						"Configuration.md",
+						"Definitions.md",
+						"Examples.md",
+						"Faceting_Architecture.md",
+						"Fold_Kinds.md",
+						"Getting_Started.md",
+						"Hosting.md",
+						"Internals.md",
+						"README.md",
+						"Security_And_Tenancy.md",
+						"Testing.md",
+						"Troubleshooting.md",
+						"_brand.json",
+						"_cover.md",
+						"_sidebar.md",
+						"_topbar.md",
+						"_version.json",
+						"api/Change_Feed.md",
+						"api/Describe.md",
+						"api/Envelope.md",
+						"api/Errors_And_Limits.md",
+						"api/JavaScript_API.md",
+						"api/Records_And_Keys.md",
+						"api/Request.md",
+						"api/Routes.md",
+						"diagrams/bucket-round-trip.excalidraw",
+						"diagrams/bucket-round-trip.mmd",
+						"diagrams/bucket-round-trip.svg",
+						"diagrams/change-flow.excalidraw",
+						"diagrams/change-flow.mmd",
+						"diagrams/change-flow.svg",
+						"diagrams/component-map.excalidraw",
+						"diagrams/component-map.mmd",
+						"diagrams/component-map.svg",
+						"diagrams/definitions-load.excalidraw",
+						"diagrams/definitions-load.mmd",
+						"diagrams/definitions-load.svg",
+						"diagrams/demo-topology.excalidraw",
+						"diagrams/demo-topology.hints.json",
+						"diagrams/demo-topology.mmd",
+						"diagrams/demo-topology.svg",
+						"diagrams/disjunctive-faceting.excalidraw",
+						"diagrams/disjunctive-faceting.mmd",
+						"diagrams/disjunctive-faceting.svg",
+						"diagrams/e3-variants.excalidraw",
+						"diagrams/e3-variants.mmd",
+						"diagrams/e3-variants.svg",
+						"diagrams/fold-taxonomy.excalidraw",
+						"diagrams/fold-taxonomy.hints.json",
+						"diagrams/fold-taxonomy.mmd",
+						"diagrams/fold-taxonomy.svg",
+						"diagrams/freshness-routing.excalidraw",
+						"diagrams/freshness-routing.mmd",
+						"diagrams/freshness-routing.svg",
+						"diagrams/install-embedded.excalidraw",
+						"diagrams/install-embedded.mmd",
+						"diagrams/install-embedded.svg",
+						"diagrams/overview.excalidraw",
+						"diagrams/overview.hints.json",
+						"diagrams/overview.mmd",
+						"diagrams/overview.svg",
+						"diagrams/request-lifecycle.excalidraw",
+						"diagrams/request-lifecycle.mmd",
+						"diagrams/request-lifecycle.svg",
+						"diagrams/scope-enforcement.excalidraw",
+						"diagrams/scope-enforcement.mmd",
+						"diagrams/scope-enforcement.svg",
+						"diagrams/scoped-relation-concept.excalidraw",
+						"diagrams/scoped-relation-concept.hints.json",
+						"diagrams/scoped-relation-concept.mmd",
+						"diagrams/scoped-relation-concept.svg",
+						"diagrams/scoped-relation.excalidraw",
+						"diagrams/scoped-relation.mmd",
+						"diagrams/scoped-relation.svg",
+						"diagrams/store-materializer.excalidraw",
+						"diagrams/store-materializer.mmd",
+						"diagrams/store-materializer.svg",
+						"examples/Bookstore_Explorer.md",
+						"examples/E1_Projects_For_Me.md",
+						"examples/E2_Documents_By_Form_Type.md",
+						"examples/E3_Lab_Forms_To_Fill_Out.md",
+						"examples/Faceting_Demo.md",
+						"fold_kinds/001-terms.md",
+						"fold_kinds/002-date-histogram.md",
+						"fold_kinds/003-numeric-histogram.md",
+						"fold_kinds/004-ranges.md",
+						"fold_kinds/005-stats.md",
+						"fold_kinds/006-distinct-count.md",
+						"fold_kinds/007-missing.md",
+						"fold_kinds/008-path-terms.md",
+						"fold_kinds/009-bridge-terms.md",
+						"fold_kinds/010-path-semi-join.md",
+						"fold_kinds/011-anti-path.md",
+						"fold_kinds/012-child-rollup.md",
+						"fold_kinds/014-pivot.md",
+						"fold_kinds/017-union-of-paths.md",
+						"fold_kinds/018-tuple-pivot.md",
+						"fold_kinds/019-having-count.md",
+						"fold_kinds/020-exists-split.md",
+						"images/demo-bookstore.jpg",
+						"images/demo-documents.jpg",
+						"images/demo-inspector.jpg",
+						"images/demo-labforms-a.jpg",
+						"images/demo-live-change.jpg",
+						"images/demo-projects.jpg",
+						"index.html",
+						"internal-contracts.md",
+						"retold-catalog.json",
+						"retold-keyword-index.json"
+					]
+				},
+				{
 					"Name": "retold-harness",
 					"Repo": "retold-harness",
 					"Group": "meadow",
@@ -6049,6 +6404,16 @@
 						"service-servers.md",
 						"static-files.md"
 					]
+				},
+				{
+					"Name": "orator-api-description",
+					"Repo": "orator-api-description",
+					"Group": "orator",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
 				},
 				{
 					"Name": "orator-authentication",
@@ -7482,6 +7847,102 @@
 					]
 				},
 				{
+					"Name": "pict-externalui",
+					"Repo": "pict-externalui",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Quick Start",
+									"Path": "Quick_Start.md"
+								}
+							]
+						},
+						{
+							"Title": "Architecture",
+							"Children": [
+								{
+									"Title": "Design Overview",
+									"Path": "Architecture.md"
+								}
+							]
+						},
+						{
+							"Title": "Reference",
+							"Children": [
+								{
+									"Title": "Implementation Reference",
+									"Path": "Implementation_Reference.md"
+								},
+								{
+									"Title": "Protocol Specification",
+									"Path": "PROTOCOL.md"
+								},
+								{
+									"Title": "Transports",
+									"Path": "TRANSPORTS.md"
+								}
+							]
+						},
+						{
+							"Title": "Providers",
+							"Children": [
+								{
+									"Title": "Godot (native)",
+									"Path": "providers/Godot.md"
+								},
+								{
+									"Title": "Tauri (OS webview)",
+									"Path": "providers/Tauri.md"
+								},
+								{
+									"Title": "Web client (Electron, Sciter)",
+									"Path": "providers/Web.md"
+								},
+								{
+									"Title": "NodeGui (Qt)",
+									"Path": "providers/NodeGui.md"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						".nojekyll",
+						"Architecture.md",
+						"Implementation_Reference.md",
+						"PRODUCTIONIZE-PROMPT.md",
+						"PROTOCOL.md",
+						"Quick_Start.md",
+						"README.md",
+						"TRANSPORTS.md",
+						"_brand.json",
+						"_cover.md",
+						"_sidebar.md",
+						"_topbar.md",
+						"_version.json",
+						"index.html",
+						"providers/Godot.md",
+						"providers/NodeGui.md",
+						"providers/Tauri.md",
+						"providers/Web.md",
+						"retold-catalog.json",
+						"retold-keyword-index.json",
+						"PACKAGING.md",
+						"PACKAGING.md",
+						"PACKAGING.md",
+						"HOSTING.md"
+					]
+				},
+				{
 					"Name": "pict-meadow-connection-manager",
 					"Repo": "pict-meadow-connection-manager",
 					"Group": "pict",
@@ -7844,6 +8305,26 @@
 					]
 				},
 				{
+					"Name": "pict-provider-graphgeometry",
+					"Repo": "pict-provider-graphgeometry",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "pict-provider-graphlayout",
+					"Repo": "pict-provider-graphlayout",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
 					"Name": "pict-provider-keybindings",
 					"Repo": "pict-provider-keybindings",
 					"Group": "pict",
@@ -7925,6 +8406,16 @@
 						"retold-catalog.json",
 						"retold-keyword-index.json"
 					]
+				},
+				{
+					"Name": "pict-provider-progress",
+					"Repo": "pict-provider-progress",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
 				},
 				{
 					"Name": "pict-provider-theme",
@@ -8269,14 +8760,131 @@
 					"DocFiles": []
 				},
 				{
-					"Name": "pict-section-clone",
-					"Repo": "pict-section-clone",
+					"Name": "pict-section-activitygraph",
+					"Repo": "pict-section-activitygraph",
 					"Group": "pict",
 					"Branch": "master",
 					"HasDocs": false,
 					"HasCover": false,
 					"Sidebar": [],
 					"DocFiles": []
+				},
+				{
+					"Name": "pict-section-checklist",
+					"Repo": "pict-section-checklist",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "pict-section-clone",
+					"Repo": "pict-section-clone",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Quick Start",
+									"Path": "quickstart.md"
+								},
+								{
+									"Title": "Architecture",
+									"Path": "architecture.md"
+								}
+							]
+						},
+						{
+							"Title": "Reference",
+							"Children": [
+								{
+									"Title": "Implementation Reference",
+									"Path": "reference.md"
+								},
+								{
+									"Title": "Function Reference",
+									"Path": "function-reference.md"
+								},
+								{
+									"Title": "Configuration",
+									"Path": "configuration.md"
+								}
+							]
+						},
+						{
+							"Title": "Examples",
+							"Children": [
+								{
+									"Title": "Clone Manager",
+									"Path": "examples/clone-manager/README.md"
+								}
+							]
+						},
+						{
+							"Title": "Retold Ecosystem",
+							"Children": [
+								{
+									"Title": "Pict",
+									"Path": "https://fable-retold.github.io/pict/README.md"
+								},
+								{
+									"Title": "Pict Application",
+									"Path": "https://fable-retold.github.io/pict-application/README.md"
+								},
+								{
+									"Title": "Pict View",
+									"Path": "https://fable-retold.github.io/pict-view/README.md"
+								},
+								{
+									"Title": "Pict Section Modal",
+									"Path": "https://fable-retold.github.io/pict-section-modal/README.md"
+								},
+								{
+									"Title": "Meadow",
+									"Path": "https://fable-retold.github.io/meadow/README.md"
+								},
+								{
+									"Title": "Fable",
+									"Path": "https://fable-retold.github.io/fable/README.md"
+								},
+								{
+									"Title": "Indoctrinate",
+									"Path": "https://fable-retold.github.io/indoctrinate/README.md"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						".nojekyll",
+						"README.md",
+						"_brand.json",
+						"_cover.md",
+						"_sidebar.md",
+						"_topbar.md",
+						"_version.json",
+						"architecture.md",
+						"configuration.md",
+						"examples/README.md",
+						"examples/clone-manager/README.md",
+						"examples/clone-manager/clone_manager_example.min.js",
+						"examples/clone-manager/index.html",
+						"function-reference.md",
+						"index.html",
+						"quickstart.md",
+						"reference.md",
+						"retold-catalog.json",
+						"retold-keyword-index.json"
+					]
 				},
 				{
 					"Name": "pict-section-code",
@@ -8401,6 +9009,16 @@
 						"retold-catalog.json",
 						"retold-keyword-index.json"
 					]
+				},
+				{
+					"Name": "pict-section-comments",
+					"Repo": "pict-section-comments",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
 				},
 				{
 					"Name": "pict-section-connection-form",
@@ -8597,6 +9215,16 @@
 				{
 					"Name": "pict-section-dataimport",
 					"Repo": "pict-section-dataimport",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "pict-section-dochistory",
+					"Repo": "pict-section-dochistory",
 					"Group": "pict",
 					"Branch": "master",
 					"HasDocs": false,
@@ -9571,6 +10199,10 @@
 								{
 									"Title": "Providers",
 									"Path": "Providers.md"
+								},
+								{
+									"Title": "Injection Conformance",
+									"Path": "Injection_Conformance.md"
 								}
 							]
 						},
@@ -9649,6 +10281,10 @@
 								{
 									"Title": "Diagram",
 									"Path": "input_providers/015-diagram.md"
+								},
+								{
+									"Title": "FacetFilter",
+									"Path": "input_providers/016-facet-filter.md"
 								}
 							]
 						},
@@ -9704,6 +10340,7 @@
 						"Comprehensions_Advanced.md",
 						"Configuration.md",
 						"Getting_Started.md",
+						"Injection_Conformance.md",
 						"Input_Types.md",
 						"Layouts.md",
 						"Pict_Section_Form_Architecture.md",
@@ -9784,6 +10421,7 @@
 						"input_providers/013-tab-section-selector.md",
 						"input_providers/014-rich-text.md",
 						"input_providers/015-diagram.md",
+						"input_providers/016-facet-filter.md",
 						"input_providers/README.md",
 						"playground/app.json",
 						"playground/appdata.json",
@@ -9795,6 +10433,106 @@
 						"playground/runtime/pict-section-modal.min.js",
 						"playground/runtime/pict.min.js",
 						"playground.md",
+						"retold-catalog.json",
+						"retold-keyword-index.json"
+					]
+				},
+				{
+					"Name": "pict-section-form-host",
+					"Repo": "pict-section-form-host",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Getting Started",
+									"Path": "getting-started.md"
+								},
+								{
+									"Title": "Configuration",
+									"Path": "configuration.md"
+								}
+							]
+						},
+						{
+							"Title": "Reference",
+							"Children": [
+								{
+									"Title": "API Reference",
+									"Path": "api.md"
+								}
+							]
+						},
+						{
+							"Title": "Examples",
+							"Children": [
+								{
+									"Title": "Example Overview",
+									"Path": "examples.md"
+								},
+								{
+									"Title": "Simple Host",
+									"Path": "examples/simple_host/README.md"
+								},
+								{
+									"Title": "Iframe Switcher",
+									"Path": "examples/iframe_switcher/README.md"
+								}
+							]
+						},
+						{
+							"Title": "Retold Ecosystem",
+							"Children": [
+								{
+									"Title": "Pict",
+									"Path": "https://fable-retold.github.io/pict/README.md"
+								},
+								{
+									"Title": "Pict Section Form",
+									"Path": "https://fable-retold.github.io/pict-section-form/README.md"
+								},
+								{
+									"Title": "Pict Application",
+									"Path": "https://fable-retold.github.io/pict-application/README.md"
+								},
+								{
+									"Title": "Pict Provider",
+									"Path": "https://fable-retold.github.io/pict-provider/README.md"
+								},
+								{
+									"Title": "Fable",
+									"Path": "https://fable-retold.github.io/fable/README.md"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						".nojekyll",
+						"README.md",
+						"_brand.json",
+						"_cover.md",
+						"_sidebar.md",
+						"_version.json",
+						"api.md",
+						"configuration.md",
+						"examples/README.md",
+						"examples/iframe_switcher/README.md",
+						"examples/iframe_switcher/iframe_switcher_example.min.js",
+						"examples/iframe_switcher/index.html",
+						"examples/simple_host/README.md",
+						"examples/simple_host/index.html",
+						"examples/simple_host/simple_host_example.min.js",
+						"examples.md",
+						"getting-started.md",
+						"index.html",
 						"retold-catalog.json",
 						"retold-keyword-index.json"
 					]
@@ -9987,6 +10725,7 @@
 						"playground/runtime/pict.min.js",
 						"retold-catalog.json",
 						"retold-keyword-index.json",
+						"theming.md",
 						"user-docs/Getting-Started.md",
 						"user-docs/Groups.md",
 						"user-docs/Inputs.md",
@@ -10818,6 +11557,8 @@
 						"api/confirm.md",
 						"api/dismissAll.md",
 						"api/doubleConfirm.md",
+						"api/dropdown.md",
+						"api/pinnableTooltip.md",
 						"api/richTooltip.md",
 						"api/show.md",
 						"api/theming.md",
@@ -11147,6 +11888,117 @@
 					"DocFiles": []
 				},
 				{
+					"Name": "pict-section-prompteditor",
+					"Repo": "pict-section-prompteditor",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Quickstart",
+									"Path": "getting-started.md"
+								},
+								{
+									"Title": "Configuration",
+									"Path": "configuration.md"
+								}
+							]
+						},
+						{
+							"Title": "Reference",
+							"Children": [
+								{
+									"Title": "Architecture",
+									"Path": "architecture.md"
+								},
+								{
+									"Title": "API Reference",
+									"Path": "api.md"
+								},
+								{
+									"Title": "Developer Functions",
+									"Path": "functions.md"
+								}
+							]
+						},
+						{
+							"Title": "Examples",
+							"Children": [
+								{
+									"Title": "Example Overview",
+									"Path": "examples.md"
+								},
+								{
+									"Title": "Prompt Workshop",
+									"Path": "examples/prompt_workshop/README.md"
+								}
+							]
+						},
+						{
+							"Title": "Retold Ecosystem",
+							"Children": [
+								{
+									"Title": "Pict",
+									"Path": "https://fable-retold.github.io/pict/README.md"
+								},
+								{
+									"Title": "Pict Application",
+									"Path": "https://fable-retold.github.io/pict-application/README.md"
+								},
+								{
+									"Title": "Pict View",
+									"Path": "https://fable-retold.github.io/pict-view/README.md"
+								},
+								{
+									"Title": "Pict Section Modal",
+									"Path": "https://fable-retold.github.io/pict-section-modal/README.md"
+								},
+								{
+									"Title": "Pict Section Picker",
+									"Path": "https://fable-retold.github.io/pict-section-picker/README.md"
+								},
+								{
+									"Title": "Fable",
+									"Path": "https://fable-retold.github.io/fable/README.md"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						".nojekyll",
+						"README.md",
+						"_brand.json",
+						"_cover.md",
+						"_sidebar.md",
+						"_topbar.md",
+						"_version.json",
+						"api.md",
+						"architecture.md",
+						"configuration.md",
+						"examples/README.md",
+						"examples/prompt_workshop/README.md",
+						"examples/prompt_workshop/codemirror-bundle.js",
+						"examples/prompt_workshop/css/prompt-workshop.css",
+						"examples/prompt_workshop/index.html",
+						"examples/prompt_workshop/js/pict.min.js",
+						"examples/prompt_workshop/pict-section-prompteditor-example-prompt-workshop.compatible.min.js",
+						"examples.md",
+						"functions.md",
+						"getting-started.md",
+						"index.html",
+						"retold-catalog.json",
+						"retold-keyword-index.json"
+					]
+				},
+				{
 					"Name": "pict-section-recordset",
 					"Repo": "pict-section-recordset",
 					"Group": "pict",
@@ -11224,6 +12076,100 @@
 						"views/dashboard/README.md",
 						"views/list/README.md",
 						"views/read/README.md"
+					]
+				},
+				{
+					"Name": "pict-section-tabbar",
+					"Repo": "pict-section-tabbar",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Getting Started",
+									"Path": "Getting_Started.md"
+								},
+								{
+									"Title": "Concepts",
+									"Path": "Concepts.md"
+								},
+								{
+									"Title": "Integration",
+									"Path": "Integration.md"
+								}
+							]
+						},
+						{
+							"Title": "API",
+							"Children": [
+								{
+									"Title": "buildTabs",
+									"Path": "api/buildTabs.md"
+								},
+								{
+									"Title": "renderTabsHTML",
+									"Path": "api/renderTabsHTML.md"
+								},
+								{
+									"Title": "containerClass",
+									"Path": "api/containerClass.md"
+								},
+								{
+									"Title": "layout",
+									"Path": "api/layout.md"
+								},
+								{
+									"Title": "Templates & CSS",
+									"Path": "api/templates.md"
+								}
+							]
+						},
+						{
+							"Title": "Examples",
+							"Children": [
+								{
+									"Title": "Tab Bar Basics",
+									"Path": "#/page/examples/tabbar_basics/README"
+								},
+								{
+									"Title": "Navigation Studio",
+									"Path": "#/page/examples/navigation_studio/README"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						".nojekyll",
+						"Concepts.md",
+						"Getting_Started.md",
+						"Integration.md",
+						"README.md",
+						"_cover.md",
+						"_sidebar.md",
+						"_version.json",
+						"api/buildTabs.md",
+						"api/containerClass.md",
+						"api/layout.md",
+						"api/renderTabsHTML.md",
+						"api/templates.md",
+						"examples/README.md",
+						"examples/navigation_studio/README.md",
+						"examples/navigation_studio/index.html",
+						"examples/navigation_studio/pict-section-tabbar-example-navigation-studio.min.js",
+						"examples/tabbar_basics/README.md",
+						"examples/tabbar_basics/index.html",
+						"examples/tabbar_basics/pict-section-tabbar-example-tabbar-basics.min.js",
+						"index.html",
+						"retold-catalog.json",
+						"retold-keyword-index.json"
 					]
 				},
 				{
@@ -11548,6 +12494,140 @@
 						"diagrams/login-request-flow.svg",
 						"index.html",
 						"quickstart.md",
+						"retold-catalog.json",
+						"retold-keyword-index.json"
+					]
+				},
+				{
+					"Name": "pict-section-whiteboard",
+					"Repo": "pict-section-whiteboard",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "pict-section-workspace",
+					"Repo": "pict-section-workspace",
+					"Group": "pict",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Getting Started",
+									"Path": "Getting_Started.md"
+								}
+							]
+						},
+						{
+							"Title": "Concepts",
+							"Children": [
+								{
+									"Title": "Architecture",
+									"Path": "Architecture.md"
+								}
+							]
+						},
+						{
+							"Title": "Configuration",
+							"Children": [
+								{
+									"Title": "Configuration",
+									"Path": "Configuration.md"
+								},
+								{
+									"Title": "Content Kinds",
+									"Path": "Content_Kinds.md"
+								},
+								{
+									"Title": "Modes",
+									"Path": "Modes.md"
+								},
+								{
+									"Title": "Subclassing",
+									"Path": "Subclassing.md"
+								}
+							]
+						},
+						{
+							"Title": "API",
+							"Children": [
+								{
+									"Title": "createWorkspace",
+									"Path": "api/createWorkspace.md"
+								},
+								{
+									"Title": "registerWorkspaceRoutes",
+									"Path": "api/registerWorkspaceRoutes.md"
+								},
+								{
+									"Title": "setDefaultDestination",
+									"Path": "api/setDefaultDestination.md"
+								},
+								{
+									"Title": "setDefaultRestClientName",
+									"Path": "api/setDefaultRestClientName.md"
+								},
+								{
+									"Title": "setAssociationEditorLib",
+									"Path": "api/setAssociationEditorLib.md"
+								},
+								{
+									"Title": "Base Provider",
+									"Path": "api/provider.md"
+								}
+							]
+						},
+						{
+							"Title": "Examples",
+							"Children": [
+								{
+									"Title": "Record Workspace",
+									"Path": "#/page/examples/record_workspace/README"
+								},
+								{
+									"Title": "Operations Console",
+									"Path": "#/page/examples/operations_console/README"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						".nojekyll",
+						"Architecture.md",
+						"Configuration.md",
+						"Content_Kinds.md",
+						"Getting_Started.md",
+						"Modes.md",
+						"README.md",
+						"Subclassing.md",
+						"_cover.md",
+						"_sidebar.md",
+						"_version.json",
+						"api/createWorkspace.md",
+						"api/provider.md",
+						"api/registerWorkspaceRoutes.md",
+						"api/setAssociationEditorLib.md",
+						"api/setDefaultDestination.md",
+						"api/setDefaultRestClientName.md",
+						"examples/README.md",
+						"examples/operations_console/README.md",
+						"examples/operations_console/index.html",
+						"examples/operations_console/pict-section-workspace-example-operations-console.min.js",
+						"examples/record_workspace/README.md",
+						"examples/record_workspace/index.html",
+						"examples/record_workspace/pict-section-workspace-example-record-workspace.min.js",
+						"index.html",
 						"retold-catalog.json",
 						"retold-keyword-index.json"
 					]
@@ -12421,6 +13501,16 @@
 						"retold-catalog.json",
 						"retold-keyword-index.json"
 					]
+				},
+				{
+					"Name": "credence",
+					"Repo": "credence",
+					"Group": "utility",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
 				},
 				{
 					"Name": "cumulation",
@@ -13509,6 +14599,19 @@
 						"retold-catalog.json",
 						"retold-keyword-index.json"
 					]
+				},
+				{
+					"Name": "retold-tool-manager",
+					"Repo": "retold-tool-manager",
+					"Group": "utility",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": [
+						"AUTHORING.md",
+						"DESIGN.md"
+					]
 				}
 			]
 		},
@@ -13801,6 +14904,7 @@
 						"diagrams/the-pull-map-comprehend-write-pipeline.excalidraw",
 						"diagrams/the-pull-map-comprehend-write-pipeline.mmd",
 						"diagrams/the-pull-map-comprehend-write-pipeline.svg",
+						"feature-request-pull-failure-surfacing.md",
 						"index.html",
 						"mapping-configuration.md",
 						"quickstart.md",
@@ -14110,6 +15214,170 @@
 						"subsystems/recordset.md",
 						"ultravisor-integration.md"
 					]
+				},
+				{
+					"Name": "retold-monorepo-manager",
+					"Repo": "retold-monorepo-manager",
+					"Group": "apps",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Quick Start",
+									"Path": "quickstart.md"
+								}
+							]
+						},
+						{
+							"Title": "Guide",
+							"Children": [
+								{
+									"Title": "Configuration",
+									"Path": "configuration.md"
+								},
+								{
+									"Title": "The Manifest",
+									"Path": "manifest-schema.md"
+								},
+								{
+									"Title": "Bulk Operations &amp; Ripple",
+									"Path": "bulk-operations.md"
+								},
+								{
+									"Title": "Web Interface",
+									"Path": "web-interface.md"
+								},
+								{
+									"Title": "Docker &amp; Deployment",
+									"Path": "docker.md"
+								}
+							]
+						},
+						{
+							"Title": "Architecture",
+							"Children": [
+								{
+									"Title": "Design Overview",
+									"Path": "architecture.md"
+								}
+							]
+						},
+						{
+							"Title": "Reference",
+							"Children": [
+								{
+									"Title": "CLI Reference",
+									"Path": "cli-reference.md"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						"README.md",
+						"_brand.json",
+						"_cover.md",
+						"_sidebar.md",
+						"_topbar.md",
+						"_version.json",
+						"architecture.md",
+						"bulk-operations.md",
+						"cli-reference.md",
+						"configuration.md",
+						"docker.md",
+						"manifest-schema.md",
+						"quickstart.md",
+						"web-interface.md"
+					]
+				},
+				{
+					"Name": "retold-npm-proxy",
+					"Repo": "retold-npm-proxy",
+					"Group": "apps",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [
+						{
+							"Title": "Getting Started",
+							"Children": [
+								{
+									"Title": "Overview",
+									"Path": "README.md"
+								},
+								{
+									"Title": "Quick Start",
+									"Path": "quickstart.md"
+								}
+							]
+						},
+						{
+							"Title": "Guide",
+							"Children": [
+								{
+									"Title": "How It Works",
+									"Path": "concepts.md"
+								},
+								{
+									"Title": "Warehouse &amp; Offline",
+									"Path": "warehouse.md"
+								},
+								{
+									"Title": "Publishing Private Packages",
+									"Path": "publishing.md"
+								},
+								{
+									"Title": "Configuration",
+									"Path": "configuration.md"
+								},
+								{
+									"Title": "Docker",
+									"Path": "docker.md"
+								}
+							]
+						},
+						{
+							"Title": "Reference",
+							"Children": [
+								{
+									"Title": "CLI Reference",
+									"Path": "cli-reference.md"
+								}
+							]
+						}
+					],
+					"DocFiles": [
+						"README.md",
+						"_brand.json",
+						"_cover.md",
+						"_sidebar.md",
+						"_topbar.md",
+						"_version.json",
+						"cli-reference.md",
+						"concepts.md",
+						"configuration.md",
+						"docker.md",
+						"publishing.md",
+						"quickstart.md",
+						"warehouse.md"
+					]
+				},
+				{
+					"Name": "retold-operation-queue",
+					"Repo": "retold-operation-queue",
+					"Group": "apps",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
 				},
 				{
 					"Name": "retold-remote",
@@ -15053,6 +16321,523 @@
 						"tui-reference.md",
 						"usage.md"
 					]
+				}
+			]
+		},
+		{
+			"Name": "Private",
+			"Key": "private",
+			"Description": "",
+			"Modules": [
+				{
+					"Name": "exordium",
+					"Repo": "exordium",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "exordium-extension",
+					"Repo": "exordium-extension",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "modello",
+					"Repo": "modello",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "nehir",
+					"Repo": "nehir",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": [
+						".nojekyll",
+						"ARCHITECTURE.md",
+						"CONFIGURATION.md",
+						"CONTRIBUTING.md",
+						"HOMEBREW.md",
+						"IPC-CLI.md",
+						"SETTINGS_MIGRATIONS.md",
+						"TESTING.md",
+						"appcast.xml",
+						"glossary.md",
+						"index.html",
+						"index.md",
+						"multi-monitor-edge-handoff.md",
+						"nehirctl-emergency-cheatsheet.md",
+						"offscreen-clamp-fix.md",
+						"osd-interactive-overlays.md",
+						"overlays-pict-bridge.md",
+						"recipes/README.md",
+						"recipes/karabiner-double-command-sticky-command-option.json",
+						"viewport-navigation-spec.md"
+					]
+				},
+				{
+					"Name": "nehir-plans",
+					"Repo": "nehir-plans",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "plansheet",
+					"Repo": "plansheet",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": [
+						"GitHub-OAuth-Setup.md",
+						"Google-OAuth-Setup.md",
+						"UPTIME-MONITORING.md",
+						"Architecture.md",
+						"README.md",
+						"WRITING-STYLE.md",
+						"_folder.json",
+						"architecture/README.md",
+						"architecture/data-model.md",
+						"architecture/deployment.md",
+						"architecture/descriptor-driven-client.md",
+						"architecture/documentation-sync.md",
+						"architecture/generic-node-tooling.md",
+						"architecture/github-doc-sync.md",
+						"architecture/messaging.md",
+						"architecture/node-capabilities-and-scoping.md",
+						"architecture/node-self-update.md",
+						"architecture/runs-and-consent.md",
+						"architecture/schema-and-migrations.md",
+						"architecture/stack.md",
+						"architecture/tenancy.md",
+						"architecture/toolchains.md",
+						"architecture/verification.md",
+						"debt/0001-docs-lake-orphaned-blob-gc.md",
+						"debt/README.md",
+						"index.md",
+						"module-reference/Blueprints/01-Overview.md",
+						"module-reference/Blueprints/02-Composing-a-Blueprint.md",
+						"module-reference/Blueprints/03-Sharing-a-Blueprint.md",
+						"module-reference/Blueprints/04-Printing-and-Versions.md",
+						"module-reference/Board/01-Overview.md",
+						"module-reference/Board/02-Lanes-and-Cards.md",
+						"module-reference/Board/03-Moving-Work-and-Audit-History.md",
+						"module-reference/Board/04-Filtering-and-Focus.md",
+						"module-reference/Checklists/01-Overview.md",
+						"module-reference/Checklists/02-Personal-and-Shared.md",
+						"module-reference/Checklists/03-Nested-Items-and-Progress.md",
+						"module-reference/Connections/01-Overview.md",
+						"module-reference/Connections/02-The-Connections-Grid.md",
+						"module-reference/Connections/03-Kinds-of-Link.md",
+						"module-reference/Documentation/01-Overview.md",
+						"module-reference/Documentation/02-Categories.md",
+						"module-reference/Documentation/03-Authoring-and-Editing.md",
+						"module-reference/Documentation/04-Linking-Docs-to-Entities.md",
+						"module-reference/Drafting-Kits/01-Overview.md",
+						"module-reference/Drafting-Kits/02-Words.md",
+						"module-reference/Drafting-Kits/03-Choosing-a-Craft-per-Vision.md",
+						"module-reference/Drafting-Kits/04-Kit-Defaults.md",
+						"module-reference/Drafting-Kits/05-Building-and-Managing-Kits.md",
+						"module-reference/Features/01-Overview.md",
+						"module-reference/Features/02-Creating-and-Linking.md",
+						"module-reference/Features/03-Realizing-Visions.md",
+						"module-reference/Features/04-Sessions-and-Media.md",
+						"module-reference/Features/05-Lifecycle-on-the-Board.md",
+						"module-reference/Features/06-The-Feature-Board.md",
+						"module-reference/Media-Library/01-Overview.md",
+						"module-reference/Media-Library/02-Owners-and-Polymorphism.md",
+						"module-reference/Media-Library/03-Upload-and-Storage.md",
+						"module-reference/Messaging-and-Notifications/01-Overview.md",
+						"module-reference/Messaging-and-Notifications/02-Message-Templates.md",
+						"module-reference/Messaging-and-Notifications/03-Notifications.md",
+						"module-reference/Modules/01-Overview.md",
+						"module-reference/Modules/02-Registering-a-Module.md",
+						"module-reference/Modules/03-Features-and-Work-Items.md",
+						"module-reference/Modules/04-Module-Documentation.md",
+						"module-reference/Product-Testing/01-Overview.md",
+						"module-reference/Product-Testing/02-Routines.md",
+						"module-reference/Product-Testing/03-Test-Runs.md",
+						"module-reference/Product-Testing/04-Feedback.md",
+						"module-reference/Profiles-and-Community/01-Overview.md",
+						"module-reference/Profiles-and-Community/02-Your-Profile.md",
+						"module-reference/Profiles-and-Community/03-The-Profile-Banner.md",
+						"module-reference/Profiles-and-Community/04-The-Community-Hub.md",
+						"module-reference/Prompt-Library/01-Overview.md",
+						"module-reference/Prompt-Library/02-The-Prompt-Editor.md",
+						"module-reference/Prompt-Library/03-Prompt-Shapes.md",
+						"module-reference/Prompt-Library/04-Versions-Runs-and-History.md",
+						"module-reference/Prompt-Library/05-Sharing-and-Attaching.md",
+						"module-reference/Refinement-Loops/01-Overview.md",
+						"module-reference/Refinement-Loops/02-The-Three-Loops.md",
+						"module-reference/Refinement-Loops/03-Checklists-Drive-the-Rings.md",
+						"module-reference/Refinement-Loops/04-Loop-Templates-per-Craft.md",
+						"module-reference/Rich-Authoring/01-Overview.md",
+						"module-reference/Rich-Authoring/02-Markdown-Editor.md",
+						"module-reference/Rich-Authoring/03-Media-Capture.md",
+						"module-reference/Rich-Authoring/04-Diagrams-KaTeX-and-Mermaid.md",
+						"module-reference/Rich-Authoring/05-Excalidraw-Drawings.md",
+						"module-reference/Sessions/01-Overview.md",
+						"module-reference/Sessions/02-Uploading-and-Browsing.md",
+						"module-reference/Sessions/03-Linking-to-Work-and-Outcomes.md",
+						"module-reference/Sessions/04-Team-Learning.md",
+						"module-reference/Support/01-Overview.md",
+						"module-reference/Support/02-Issues.md",
+						"module-reference/Support/03-Triage-and-the-Board.md",
+						"module-reference/Support/04-Call-Desk.md",
+						"module-reference/Support/05-Customers-and-Contacts.md",
+						"module-reference/Tenancy-and-Accounts/01-Overview.md",
+						"module-reference/Tenancy-and-Accounts/02-Customers-and-Isolation.md",
+						"module-reference/Tenancy-and-Accounts/03-Users-and-Sign-In.md",
+						"module-reference/Tenancy-and-Accounts/04-Roles-and-Permissions.md",
+						"module-reference/Tenancy-and-Accounts/05-Two-Step-Verification.md",
+						"module-reference/Visions/01-Overview.md",
+						"module-reference/Visions/02-Core-Vision-Document.md",
+						"module-reference/Visions/03-Dossier-and-Media.md",
+						"module-reference/Visions/04-Sub-Visions-and-Reuse.md",
+						"module-reference/Visions/05-Related-Visions-and-Realization.md",
+						"module-reference/Whiteboards/01-Overview.md",
+						"module-reference/Whiteboards/02-The-Canvas.md",
+						"module-reference/Whiteboards/03-Stickers-and-Sticker-Sets.md",
+						"module-reference/Whiteboards/04-Photos-and-Media.md",
+						"module-reference/Whiteboards/05-Display-Styles.md",
+						"module-reference/Whiteboards/06-Where-Boards-Live.md",
+						"module-reference/Work-Items/01-Overview.md",
+						"module-reference/Work-Items/02-Types-and-Targeting.md",
+						"module-reference/Work-Items/03-On-the-Board.md",
+						"module-reference/Work-Items/04-Triage-Workflow.md",
+						"module-reference/Workflow/01-Overview.md",
+						"module-reference/Workflow/02-Designing-a-Workflow.md",
+						"module-reference/Workflow/03-Running-Work-Through-It.md",
+						"module-reference/_folder.json",
+						"personas/README.md",
+						"personas/delivery-engineering/01-software-engineer.md",
+						"personas/delivery-engineering/02-tech-lead.md",
+						"personas/delivery-engineering/03-engineering-manager.md",
+						"personas/delivery-engineering/04-qa-engineer.md",
+						"personas/delivery-engineering/05-devops-engineer.md",
+						"personas/delivery-engineering/06-ai-agent-operator.md",
+						"personas/delivery-engineering/README.md",
+						"personas/knowledge-platform/01-technical-writer.md",
+						"personas/knowledge-platform/02-software-architect.md",
+						"personas/knowledge-platform/03-onboarding-lead.md",
+						"personas/knowledge-platform/04-platform-administrator.md",
+						"personas/knowledge-platform/05-research-lead.md",
+						"personas/knowledge-platform/06-executive-sponsor.md",
+						"personas/knowledge-platform/README.md",
+						"personas/vision-product/01-product-visionary.md",
+						"personas/vision-product/02-product-manager.md",
+						"personas/vision-product/03-product-designer.md",
+						"personas/vision-product/04-business-analyst.md",
+						"personas/vision-product/05-portfolio-lead.md",
+						"personas/vision-product/06-stakeholder-sponsor.md",
+						"personas/vision-product/README.md",
+						"user-stories/README.md",
+						"user-stories/_folder.json",
+						"user-stories/board-workflow/INDEX.md",
+						"user-stories/board-workflow/audit-and-history/B0020-capture-every-move-as-an-audit-row.md",
+						"user-stories/board-workflow/audit-and-history/B0021-read-a-cards-full-history.md",
+						"user-stories/board-workflow/audit-and-history/B0022-see-who-changed-what-and-when.md",
+						"user-stories/board-workflow/audit-and-history/B0023-trust-the-append-only-guarantee.md",
+						"user-stories/board-workflow/board-basics/B0001-open-and-read-the-board.md",
+						"user-stories/board-workflow/board-basics/B0002-understand-the-six-fixed-lanes.md",
+						"user-stories/board-workflow/board-basics/B0003-see-features-and-workitems-in-one-stream.md",
+						"user-stories/board-workflow/board-basics/B0004-read-a-card-at-a-glance.md",
+						"user-stories/board-workflow/filtering-and-focus/B0030-filter-the-board-by-type-assignee-or-target.md",
+						"user-stories/board-workflow/filtering-and-focus/B0031-focus-on-my-work.md",
+						"user-stories/board-workflow/filtering-and-focus/B0032-walk-from-a-card-to-its-graph.md",
+						"user-stories/board-workflow/moving-work/B0010-drag-a-card-between-lanes.md",
+						"user-stories/board-workflow/moving-work/B0011-change-a-cards-status.md",
+						"user-stories/board-workflow/moving-work/B0012-reassign-a-card-to-another-person.md",
+						"user-stories/board-workflow/moving-work/B0013-pull-the-next-item-into-progress.md",
+						"user-stories/board-workflow/moving-work/B0014-order-work-within-a-lane-by-priority.md",
+						"user-stories/board-workflow/moving-work/B0015-bulk-move-cards.md",
+						"user-stories/board-workflow/moving-work/B0016-bulk-edit-fields.md",
+						"user-stories/board-workflow/moving-work/B0017-bulk-archive.md",
+						"user-stories/board-workflow/stalled-and-handoff/B0040-detect-stalled-cards.md",
+						"user-stories/board-workflow/stalled-and-handoff/B0041-spot-silent-handoffs-in-the-audit-log.md",
+						"user-stories/board-workflow/stalled-and-handoff/B0042-watch-aging-and-flow.md",
+						"user-stories/board-workflow/stalled-and-handoff/B0043-surface-blocked-work.md",
+						"user-stories/documentation-authoring/INDEX.md",
+						"user-stories/documentation-authoring/diagrams-and-drawings/D0030-render-katex-math-in-a-document.md",
+						"user-stories/documentation-authoring/diagrams-and-drawings/D0031-draw-a-mermaid-diagram.md",
+						"user-stories/documentation-authoring/diagrams-and-drawings/D0032-open-the-fullscreen-excalidraw-canvas.md",
+						"user-stories/documentation-authoring/diagrams-and-drawings/D0033-save-a-drawing-as-self-contained-svg.md",
+						"user-stories/documentation-authoring/diagrams-and-drawings/D0034-reopen-and-edit-a-drawing-later.md",
+						"user-stories/documentation-authoring/diagrams-and-drawings/D0035-mix-prose-math-diagrams-drawings.md",
+						"user-stories/documentation-authoring/doc-links/D0040-link-foundational-doc-to-an-entity.md",
+						"user-stories/documentation-authoring/doc-links/D0041-deep-link-into-a-specific-document.md",
+						"user-stories/documentation-authoring/doc-links/D0042-reference-shared-vocabulary-from-an-entity.md",
+						"user-stories/documentation-authoring/doc-links/D0043-walk-from-an-entity-to-its-documentation.md",
+						"user-stories/documentation-authoring/doc-links/D0044-keep-terminology-consistent-across-entities.md",
+						"user-stories/documentation-authoring/foundational-library/D0001-browse-foundational-documentation.md",
+						"user-stories/documentation-authoring/foundational-library/D0002-five-documentation-categories.md",
+						"user-stories/documentation-authoring/foundational-library/D0003-add-document-to-category.md",
+						"user-stories/documentation-authoring/foundational-library/D0004-edit-document-inline.md",
+						"user-stories/documentation-authoring/foundational-library/D0005-publish-draft-document.md",
+						"user-stories/documentation-authoring/foundational-library/D0006-search-documentation-library.md",
+						"user-stories/documentation-authoring/media-capture/D0020-paste-a-screenshot-into-a-document.md",
+						"user-stories/documentation-authoring/media-capture/D0021-drag-an-image-into-a-document.md",
+						"user-stories/documentation-authoring/media-capture/D0022-capture-from-a-phone-camera.md",
+						"user-stories/documentation-authoring/media-capture/D0023-the-auto-inserted-image-reference.md",
+						"user-stories/documentation-authoring/media-capture/D0024-media-that-lives-inside-the-document.md",
+						"user-stories/documentation-authoring/rich-authoring/D0010-write-markdown-with-live-preview.md",
+						"user-stories/documentation-authoring/rich-authoring/D0011-codemirror-markdown-editor.md",
+						"user-stories/documentation-authoring/rich-authoring/D0012-attach-rich-document-to-entity.md",
+						"user-stories/documentation-authoring/rich-authoring/D0013-author-offline-vendored-libraries.md",
+						"user-stories/documentation-authoring/rich-authoring/D0014-capture-as-you-document.md",
+						"user-stories/documentation-authoring/rich-authoring/D0015-keep-a-doc-honest-over-time.md",
+						"user-stories/features/INDEX.md",
+						"user-stories/features/creating-features/F0001-create-a-feature.md",
+						"user-stories/features/creating-features/F0002-set-the-module-a-feature-is-built-in.md",
+						"user-stories/features/creating-features/F0003-describe-what-a-feature-delivers.md",
+						"user-stories/features/creating-features/F0004-set-feature-priority.md",
+						"user-stories/features/creating-features/F0005-place-a-feature-on-the-board.md",
+						"user-stories/features/lifecycle/F0020-move-a-feature-across-the-lanes.md",
+						"user-stories/features/lifecycle/F0021-assign-a-feature-to-a-teammate.md",
+						"user-stories/features/lifecycle/F0022-send-a-feature-to-review.md",
+						"user-stories/features/lifecycle/F0023-mark-a-feature-blocked-with-a-reason.md",
+						"user-stories/features/lifecycle/F0024-reach-done-with-a-full-audit-trail.md",
+						"user-stories/features/media-on-features/F0040-attach-a-screenshot-or-recording-to-a-feature.md",
+						"user-stories/features/media-on-features/F0041-capture-a-before-and-after.md",
+						"user-stories/features/media-on-features/F0042-record-a-short-demo-of-a-feature.md",
+						"user-stories/features/media-on-features/F0043-surface-media-on-the-feature-card-and-detail.md",
+						"user-stories/features/realizing-visions/F0010-link-a-feature-to-the-vision-it-realizes.md",
+						"user-stories/features/realizing-visions/F0011-advance-multiple-visions-with-one-feature.md",
+						"user-stories/features/realizing-visions/F0012-see-a-features-traceability-to-intent.md",
+						"user-stories/features/realizing-visions/F0013-find-features-that-realize-a-vision.md",
+						"user-stories/features/sessions-on-features/F0030-link-the-session-that-built-the-feature.md",
+						"user-stories/features/sessions-on-features/F0031-learn-from-a-teammates-session.md",
+						"user-stories/features/sessions-on-features/F0032-compare-session-outcomes-across-a-feature.md",
+						"user-stories/features/sessions-on-features/F0033-revisit-how-a-feature-was-built.md",
+						"user-stories/modules/INDEX.md",
+						"user-stories/modules/module-docs/M0010-attach-documentation-to-a-module.md",
+						"user-stories/modules/module-docs/M0011-link-architecture-and-product-foundational-docs.md",
+						"user-stories/modules/module-docs/M0012-keep-module-design-docs-current.md",
+						"user-stories/modules/module-docs/M0013-deprecate-a-module-and-document-the-reason.md",
+						"user-stories/modules/module-work/M0020-see-features-built-in-a-module.md",
+						"user-stories/modules/module-work/M0021-see-work-items-about-a-module.md",
+						"user-stories/modules/module-work/M0022-one-place-for-all-of-a-modules-work.md",
+						"user-stories/modules/module-work/M0023-assign-module-ownership-and-stewardship.md",
+						"user-stories/modules/registering-modules/M0001-register-a-module-for-a-repository.md",
+						"user-stories/modules/registering-modules/M0002-set-repository-url-path-and-language.md",
+						"user-stories/modules/registering-modules/M0003-set-module-status.md",
+						"user-stories/modules/registering-modules/M0004-browse-the-module-catalog.md",
+						"user-stories/platform-tenancy/INDEX.md",
+						"user-stories/platform-tenancy/accounts-and-sign-in/P0001-sign-up-with-email-and-password.md",
+						"user-stories/platform-tenancy/accounts-and-sign-in/P0002-sign-in-to-plansheet.md",
+						"user-stories/platform-tenancy/accounts-and-sign-in/P0003-sign-in-with-google.md",
+						"user-stories/platform-tenancy/accounts-and-sign-in/P0004-sign-in-with-github.md",
+						"user-stories/platform-tenancy/accounts-and-sign-in/P0005-stay-signed-in-and-sign-out-securely.md",
+						"user-stories/platform-tenancy/multi-tenancy/P0010-every-record-is-scoped-to-a-customer.md",
+						"user-stories/platform-tenancy/multi-tenancy/P0011-a-user-cannot-see-another-customers-data.md",
+						"user-stories/platform-tenancy/multi-tenancy/P0012-share-work-within-a-customer.md",
+						"user-stories/platform-tenancy/multi-tenancy/P0013-server-side-isolation-guarantee.md",
+						"user-stories/platform-tenancy/multi-tenancy/P0014-trust-the-tenancy-boundary-with-sensitive-plans.md",
+						"user-stories/platform-tenancy/settings-and-theme/P0030-open-the-settings-panel.md",
+						"user-stories/platform-tenancy/settings-and-theme/P0031-pick-a-theme.md",
+						"user-stories/platform-tenancy/settings-and-theme/P0032-personalize-the-workspace.md",
+						"user-stories/platform-tenancy/settings-and-theme/P0033-manage-workspace-preferences.md",
+						"user-stories/platform-tenancy/users-and-admin/P0020-set-up-a-new-customer-workspace.md",
+						"user-stories/platform-tenancy/users-and-admin/P0021-add-users-to-the-tenant.md",
+						"user-stories/platform-tenancy/users-and-admin/P0022-see-who-is-on-the-team.md",
+						"user-stories/platform-tenancy/users-and-admin/P0023-account-routes-that-resist-enumeration.md",
+						"user-stories/sessions/INDEX.md",
+						"user-stories/sessions/linking-and-outcomes/S0010-link-session-to-feature-or-workitem.md",
+						"user-stories/sessions/linking-and-outcomes/S0011-set-session-outcome.md",
+						"user-stories/sessions/linking-and-outcomes/S0012-relink-or-correct-session.md",
+						"user-stories/sessions/linking-and-outcomes/S0013-value-of-honest-outcomes.md",
+						"user-stories/sessions/linking-and-outcomes/S0014-durable-record-of-how-it-was-made.md",
+						"user-stories/sessions/prompt-builder/S0030-assemble-prompt-template.md",
+						"user-stories/sessions/prompt-builder/S0031-keep-prompts-consistent.md",
+						"user-stories/sessions/prompt-builder/S0032-close-the-loop.md",
+						"user-stories/sessions/team-learning/S0020-team-visible-shared-knowledge.md",
+						"user-stories/sessions/team-learning/S0021-learn-from-teammates-session.md",
+						"user-stories/sessions/team-learning/S0022-what-worked-what-didnt.md",
+						"user-stories/sessions/team-learning/S0023-reuse-proven-approach.md",
+						"user-stories/sessions/upload-and-browse/S0001-upload-session-export.md",
+						"user-stories/sessions/upload-and-browse/S0002-browse-sessions-calendar.md",
+						"user-stories/sessions/upload-and-browse/S0003-open-and-read-session.md",
+						"user-stories/sessions/upload-and-browse/S0004-session-metadata-at-a-glance.md",
+						"user-stories/visions/INDEX.md",
+						"user-stories/visions/capturing-a-vision/V0001-create-a-vision.md",
+						"user-stories/visions/capturing-a-vision/V0002-name-a-vision-with-summary-and-scope.md",
+						"user-stories/visions/capturing-a-vision/V0003-write-the-premise-and-description.md",
+						"user-stories/visions/capturing-a-vision/V0004-set-a-visions-status-from-draft-to-active.md",
+						"user-stories/visions/capturing-a-vision/V0005-the-vision-number.md",
+						"user-stories/visions/capturing-a-vision/V0006-articulate-the-desired-end-state-against-today.md",
+						"user-stories/visions/documentation-first/V0010-the-pinned-core-vision-document.md",
+						"user-stories/visions/documentation-first/V0011-build-the-dossier.md",
+						"user-stories/visions/documentation-first/V0012-the-visions-media-library.md",
+						"user-stories/visions/documentation-first/V0013-author-richly-inside-a-vision.md",
+						"user-stories/visions/documentation-first/V0014-lead-with-documentation.md",
+						"user-stories/visions/documentation-first/V0015-keep-the-why-with-the-vision.md",
+						"user-stories/visions/portrayability/V0040-portray-a-vision-at-any-level-for-a-stakeholder.md",
+						"user-stories/visions/portrayability/V0041-share-a-read-only-legible-view.md",
+						"user-stories/visions/portrayability/V0042-the-single-source-of-where-were-going-and-why.md",
+						"user-stories/visions/realization-and-relationships/V0030-see-which-features-realize-a-vision.md",
+						"user-stories/visions/realization-and-relationships/V0031-relate-visions-to-each-other.md",
+						"user-stories/visions/realization-and-relationships/V0032-see-work-items-about-a-vision.md",
+						"user-stories/visions/realization-and-relationships/V0033-link-foundational-documentation.md",
+						"user-stories/visions/realization-and-relationships/V0034-walk-the-relationship-graph-by-clicking-chips.md",
+						"user-stories/visions/sub-visions-and-reuse/V0020-create-a-sub-vision-in-one-step.md",
+						"user-stories/visions/sub-visions-and-reuse/V0021-decompose-a-big-vision-into-aligned-parts.md",
+						"user-stories/visions/sub-visions-and-reuse/V0022-reuse-via-add-existing-as-part.md",
+						"user-stories/visions/sub-visions-and-reuse/V0023-the-dag-not-tree-model.md",
+						"user-stories/visions/sub-visions-and-reuse/V0024-walk-part-of-upward.md",
+						"user-stories/visions/sub-visions-and-reuse/V0025-navigate-the-parts-cards.md",
+						"user-stories/work-items/INDEX.md",
+						"user-stories/work-items/capture-and-triage/W0001-create-a-work-item.md",
+						"user-stories/work-items/capture-and-triage/W0002-quickly-capture-into-triage.md",
+						"user-stories/work-items/capture-and-triage/W0003-set-priority.md",
+						"user-stories/work-items/capture-and-triage/W0004-assign-a-work-item.md",
+						"user-stories/work-items/capture-and-triage/W0005-clear-the-triage-inbox.md",
+						"user-stories/work-items/on-the-board/W0030-work-items-beside-features.md",
+						"user-stories/work-items/on-the-board/W0031-move-across-lanes.md",
+						"user-stories/work-items/on-the-board/W0032-mark-blocked-with-reason.md",
+						"user-stories/work-items/on-the-board/W0033-carry-to-done.md",
+						"user-stories/work-items/on-the-board/W0034-filter-by-type-or-assignee.md",
+						"user-stories/work-items/targeting/W0020-target-a-vision.md",
+						"user-stories/work-items/targeting/W0021-target-a-module.md",
+						"user-stories/work-items/targeting/W0022-target-a-feature.md",
+						"user-stories/work-items/targeting/W0023-retarget-exactly-one-target.md",
+						"user-stories/work-items/types/W0010-triage-catch-all-inbox.md",
+						"user-stories/work-items/types/W0011-research-spike.md",
+						"user-stories/work-items/types/W0012-innovation-idea.md",
+						"user-stories/work-items/types/W0013-issue-bug-report.md",
+						"user-stories/work-items/types/W0014-debt-cleanup.md",
+						"user-stories/work-items/types/W0015-enhancement-request.md",
+						"vocabulary/README.md",
+						"vocabulary/audit-event.md",
+						"vocabulary/board.md",
+						"vocabulary/content-document.md",
+						"vocabulary/core-vision-document.md",
+						"vocabulary/customer.md",
+						"vocabulary/descriptor-driven-ui.md",
+						"vocabulary/dossier.md",
+						"vocabulary/feature.md",
+						"vocabulary/foundational-documentation.md",
+						"vocabulary/lane.md",
+						"vocabulary/media.md",
+						"vocabulary/message-outbox.md",
+						"vocabulary/message-template.md",
+						"vocabulary/module.md",
+						"vocabulary/notification-preference.md",
+						"vocabulary/outcome.md",
+						"vocabulary/recovery-code.md",
+						"vocabulary/session.md",
+						"vocabulary/sub-vision.md",
+						"vocabulary/two-step-verification.md",
+						"vocabulary/vision-number.md",
+						"vocabulary/vision.md",
+						"vocabulary/work-item.md"
+					]
+				},
+				{
+					"Name": "plansheet-deploy-tool",
+					"Repo": "plansheet-deploy-tool",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "plansheet-mcp",
+					"Repo": "plansheet-mcp",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "retold-application-foundation",
+					"Repo": "retold-application-foundation",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": [
+						"Capabilities-Contract.md",
+						"Kit-Prompt.md",
+						"Tenancy-and-Identity.md"
+					]
+				},
+				{
+					"Name": "retold-application-foundation-client",
+					"Repo": "retold-application-foundation-client",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "retold-application-foundation-server",
+					"Repo": "retold-application-foundation-server",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "retold-deploy-tool",
+					"Repo": "retold-deploy-tool",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
+				},
+				{
+					"Name": "sluice",
+					"Repo": "sluice",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": true,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": [
+						"run-control-contract.md",
+						"self-hosting.md"
+					]
+				},
+				{
+					"Name": "stacks",
+					"Repo": "stacks",
+					"Group": "private",
+					"Branch": "master",
+					"HasDocs": false,
+					"HasCover": false,
+					"Sidebar": [],
+					"DocFiles": []
 				}
 			]
 		}

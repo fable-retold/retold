@@ -2,6 +2,23 @@
 	"ExcludedModules":
 		[
 			"retold-remote-desktop",
-			"retold-remote-ios"
+			"retold-remote-ios",
+			"nehir"
+		],
+	"IgnoredFileNames":
+		[
+			"node_modules",
+			".git",
+			".DS_Store",
+			".nyc_output",
+			"dist",
+			"build",
+			"coverage",
+			"out",
+			"tmp",
+			".build",
+			".swiftpm",
+			"DerivedData",
+			"Pods"
 		]
 }
